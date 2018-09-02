@@ -25,13 +25,42 @@ class GamePane extends Region {
 
     GamePane(Board board){
         this.board = board;
-        this.setPrefSize(500,500);
-        this.setMinSize(500,500);
-        this.setMaxSize(500,500);
         this.cellSpace = 60;
+        this.setPrefSize(cellSpace*10,cellSpace*10);
+        this.setMinSize(cellSpace*10,cellSpace*10);
+        this.setMaxSize(cellSpace*10,cellSpace*10);
         this.loadChessImages();
         this.createGameFieldPane();
         this.drawPieces();
+        this.drawSideText();
+    }
+
+    private void drawSideText() {
+        String text;
+        int halfCellSpace = this.cellSpace/2;
+        for(int i = 8;i>0;i--){
+            text = i+"";
+            this.gc.fillText(text,halfCellSpace, cellSpace*i+halfCellSpace);
+            this.gc.fillText(text,cellSpace*9+halfCellSpace, cellSpace*i+halfCellSpace);
+        }
+
+        this.gc.fillText("A",cellSpace+halfCellSpace, halfCellSpace);
+        this.gc.fillText("B",cellSpace*2+halfCellSpace, halfCellSpace);
+        this.gc.fillText("C",cellSpace*3+halfCellSpace, halfCellSpace);
+        this.gc.fillText("D",cellSpace*4+halfCellSpace, halfCellSpace);
+        this.gc.fillText("E",cellSpace*5+halfCellSpace, halfCellSpace);
+        this.gc.fillText("F",cellSpace*6+halfCellSpace, halfCellSpace);
+        this.gc.fillText("G",cellSpace*7+halfCellSpace, halfCellSpace);
+        this.gc.fillText("H",cellSpace*8+halfCellSpace, halfCellSpace);
+
+        this.gc.fillText("A",cellSpace+halfCellSpace, cellSpace *9+halfCellSpace);
+        this.gc.fillText("B",cellSpace*2+halfCellSpace, cellSpace *9+halfCellSpace);
+        this.gc.fillText("C",cellSpace*3+halfCellSpace, cellSpace *9+halfCellSpace);
+        this.gc.fillText("D",cellSpace*4+halfCellSpace, cellSpace *9+halfCellSpace);
+        this.gc.fillText("E",cellSpace*5+halfCellSpace, cellSpace *9+halfCellSpace);
+        this.gc.fillText("F",cellSpace*6+halfCellSpace, cellSpace *9+halfCellSpace);
+        this.gc.fillText("G",cellSpace*7+halfCellSpace, cellSpace *9+halfCellSpace);
+        this.gc.fillText("H",cellSpace*8+halfCellSpace, cellSpace *9+halfCellSpace);
     }
 
     private void loadChessImages(){
@@ -54,12 +83,11 @@ class GamePane extends Region {
         Canvas canvas = new Canvas(700, 700);
         this.gc = canvas.getGraphicsContext2D();
 
-
         for (int i = 0; i <8 ;i++){
             for (int j = 0;j<8;j++){
-                this.gc.rect((this.cellSpace*i),(this.cellSpace*j),this.cellSpace,this.cellSpace);
+                this.gc.rect((this.cellSpace*i+this.cellSpace),(this.cellSpace*j+this.cellSpace),this.cellSpace,this.cellSpace);
                 this.gc.setFill((i+j)%2 == 0 ? Color.BROWN : Color.WHITE);
-                this.gc.fillRect((this.cellSpace*i),(this.cellSpace*j),this.cellSpace,this.cellSpace);
+                this.gc.fillRect((this.cellSpace*i+this.cellSpace),(this.cellSpace*j+this.cellSpace),this.cellSpace,this.cellSpace);
             }
         }
         this.gc.setStroke(Color.BLACK);
@@ -74,55 +102,55 @@ class GamePane extends Region {
                 if (piece != null){
                     if (piece instanceof Queen){
                         if (piece.getTeamNumber() == 1){
-                            this.gc.drawImage(this.blackQueen,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.blackQueen,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                         else {
-                            this.gc.drawImage(this.whiteQueen,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.whiteQueen,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                     }
 
                     if (piece instanceof King){
                         if (piece.getTeamNumber() == 1){
-                            this.gc.drawImage(this.blackKing,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.blackKing,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                         else {
-                            this.gc.drawImage(this.whiteKing,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.whiteKing,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                     }
 
                     if (piece instanceof Bishop){
                         if (piece.getTeamNumber() == 1){
-                            this.gc.drawImage(this.blackBishop,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.blackBishop,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                         else {
-                            this.gc.drawImage(this.whiteBishop,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.whiteBishop,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                     }
 
                     if (piece instanceof Knight){
                         if (piece.getTeamNumber() == 1){
-                            this.gc.drawImage(this.blackKnight,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.blackKnight,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                         else {
-                            this.gc.drawImage(this.whiteKnight,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.whiteKnight,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                     }
 
                     if (piece instanceof Rook){
                         if (piece.getTeamNumber() == 1){
-                            this.gc.drawImage(this.blackRook,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.blackRook,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                         else {
-                            this.gc.drawImage(this.whiteRook,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.whiteRook,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                     }
 
                     if (piece instanceof Pawn){
                         if (piece.getTeamNumber() == 1){
-                            this.gc.drawImage(this.blackPawn,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.blackPawn,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                         else {
-                            this.gc.drawImage(this.whitePawn,(this.cellSpace*j),(this.cellSpace*i),this.cellSpace,this.cellSpace);
+                            this.gc.drawImage(this.whitePawn,(this.cellSpace*j+this.cellSpace),(this.cellSpace*i+this.cellSpace),this.cellSpace,this.cellSpace);
                         }
                     }
                 }

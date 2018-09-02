@@ -16,8 +16,6 @@ public class ChessMainGui extends Application{
     private MenuBar menuBar;
     private ToolBar toolBar;
     private BorderPane root;
-    private ScrollPane scrollPane;
-    private GamePane gameFieldPane;
 
     public static void main(String[] args){     //throws Exception
         launch(args);
@@ -29,7 +27,7 @@ public class ChessMainGui extends Application{
         this.CreateToolBar();
         this.CreateLayout();
 
-        Scene scene = new Scene(this.root,700,650);
+        Scene scene = new Scene(this.root,800,800);
         primaryStage.setTitle("Chess");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -95,8 +93,8 @@ public class ChessMainGui extends Application{
     private void CreateLayout() {
         this.root = new BorderPane();
 
-        Label topLabel = new Label("Player A");
-        Label botLabel = new Label("Player B");
+        Label topLabel = new Label("Player B");
+        Label botLabel = new Label("Player A");
         Label infoLabel = new Label("Start a new game or load an old one.");
 
         VBox topVBox = new VBox();
@@ -109,13 +107,17 @@ public class ChessMainGui extends Application{
         topVBox.getChildren().addAll(this.menuBar, this.toolBar, topLabel);
         infoLabelBox.getChildren().addAll(infoLabel);
         botVBox.getChildren().addAll(botLabel,infoLabelBox);
-        this.gameFieldPane = new GamePane(new Board());
+        GamePane gameFieldPane = new GamePane(new Board());
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
+        scrollPane.setContent(gameFieldPane);
         this.root.setTop(topVBox);
-        this.root.setCenter(this.gameFieldPane);
+        this.root.setCenter(scrollPane);
         this.root.setBottom(botVBox);
 
-        BorderPane.setAlignment(this.gameFieldPane, Pos.CENTER);
+        BorderPane.setAlignment(gameFieldPane, Pos.CENTER);
         BorderPane.setAlignment(topLabel, Pos.CENTER);
         BorderPane.setAlignment(botLabel, Pos.CENTER);
         infoLabelBox.setAlignment(Pos.BOTTOM_LEFT);
