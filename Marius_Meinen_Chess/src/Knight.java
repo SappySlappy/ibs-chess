@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 
-public class Knight extends PieceBase{
+public class Knight extends PieceBase {
 
-    Knight(int teamNumber, String pieceIdentifier, int row, int col){
+    Knight(int teamNumber, String pieceIdentifier, int row, int col) {
         super(teamNumber, pieceIdentifier, row, col);
     }
 
     @Override
     public boolean isMoveLegal(Board board, Move move) {
-        if(!super.isMoveLegal(board,move)){
+        if (!super.isMoveLegal(board, move)) {
             return false;
         }
 
@@ -19,59 +19,59 @@ public class Knight extends PieceBase{
 
     private void createList(Board board) {
         PieceBase destinationField;
-        if(this.row+2 < 8 && this.col+1 <8 ){
-            destinationField = board.getField(this.row+2,this.col+1);
-            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()){
-                this.possibleMoves.add(new Move(this.row,this.col,this.row+2,this.col+1,false,null, 0));
+        if (this.row + 2 < 8 && this.col + 1 < 8) {
+            destinationField = board.getField(this.row + 2, this.col + 1);
+            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()) {
+                this.possibleMoves.add(new Move(this.row, this.col, this.row + 2, this.col + 1, false, null, 0));
             }
         }
 
-        if(this.row+1 < 8 && this.col+2 <8){
-            destinationField = board.getField(this.row+1,this.col+2);
-            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()){
-                this.possibleMoves.add(new Move(this.row,this.col,this.row+1,this.col+2,false,null, 0));
+        if (this.row + 1 < 8 && this.col + 2 < 8) {
+            destinationField = board.getField(this.row + 1, this.col + 2);
+            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()) {
+                this.possibleMoves.add(new Move(this.row, this.col, this.row + 1, this.col + 2, false, null, 0));
             }
         }
 
-        if(this.row-2 >= 0 && this.col-1 >= 8){
-            destinationField = board.getField(this.row-2,this.col-1);
-            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()){
-                this.possibleMoves.add(new Move(this.row,this.col,this.row-2,this.col-1,false,null, 0));
+        if (this.row - 2 >= 0 && this.col - 1 >= 8) {
+            destinationField = board.getField(this.row - 2, this.col - 1);
+            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()) {
+                this.possibleMoves.add(new Move(this.row, this.col, this.row - 2, this.col - 1, false, null, 0));
             }
         }
 
-        if(this.row-1 >= 0 && this.col-2 >= 0){
-            destinationField = board.getField(this.row-1,this.col-2);
-            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()){
-                this.possibleMoves.add(new Move(this.row,this.col,this.row-1,this.col-2,false,null, 0));
+        if (this.row - 1 >= 0 && this.col - 2 >= 0) {
+            destinationField = board.getField(this.row - 1, this.col - 2);
+            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()) {
+                this.possibleMoves.add(new Move(this.row, this.col, this.row - 1, this.col - 2, false, null, 0));
             }
         }
 
-        if(this.row+2 < 8 && this.col-1 >= 0){
-            destinationField = board.getField(this.row+2,this.col-1);
-            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()){
-                this.possibleMoves.add(new Move(this.row,this.col,this.row+2,this.col-1,false,null, 0));
+        if (this.row + 2 < 8 && this.col - 1 >= 0) {
+            destinationField = board.getField(this.row + 2, this.col - 1);
+            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()) {
+                this.possibleMoves.add(new Move(this.row, this.col, this.row + 2, this.col - 1, false, null, 0));
             }
         }
 
-        if(this.row+1 < 8 && this.col-2 >= 0){
-            destinationField = board.getField(this.row+1,this.col-2);
-            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()){
-                this.possibleMoves.add(new Move(this.row,this.col,this.row+1,this.col-2,false,null, 0));
+        if (this.row + 1 < 8 && this.col - 2 >= 0) {
+            destinationField = board.getField(this.row + 1, this.col - 2);
+            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()) {
+                this.possibleMoves.add(new Move(this.row, this.col, this.row + 1, this.col - 2, false, null, 0));
             }
         }
 
-        if(this.row-2 >= 0 && this.col+1 <8){
-            destinationField = board.getField(this.row-2,this.col+1);
-            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()){
-                this.possibleMoves.add(new Move(this.row,this.col,this.row-2,this.col+1,false,null, 0));
+        if (this.row - 2 >= 0 && this.col + 1 < 8) {
+            destinationField = board.getField(this.row - 2, this.col + 1);
+            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()) {
+                this.possibleMoves.add(new Move(this.row, this.col, this.row - 2, this.col + 1, false, null, 0));
             }
         }
 
-        if(this.row-1 >= 0 && this.col+2 <8){
-            destinationField = board.getField(this.row-1,this.col+2);
-            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()){
-                this.possibleMoves.add(new Move(this.row,this.col,this.row-1,this.col+2,false,null, 0));
+        if (this.row - 1 >= 0 && this.col + 2 < 8) {
+            destinationField = board.getField(this.row - 1, this.col + 2);
+            if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()) {
+                this.possibleMoves.add(new Move(this.row, this.col, this.row - 1, this.col + 2, false, null, 0));
             }
         }
     }

@@ -14,9 +14,9 @@ class Game {
     }
 
     void startGame() {
-        this.currentPlayer = playerA;
+        this.currentPlayer = this.playerA;
         Move currentMove = this.currentPlayer.makeAMove();
-        this.isGameFinished = referee.checkNewMove(currentMove);
+        this.isGameFinished = this.referee.checkNewMove(currentMove);
 
         while (!this.isGameFinished) {
             this.switchPlayer();
@@ -25,7 +25,7 @@ class Game {
                 break;
             }
             currentMove = this.currentPlayer.makeAMove();
-            this.isGameFinished = referee.checkNewMove(currentMove);
+            this.isGameFinished = this.referee.checkNewMove(currentMove);
         }
 
         System.out.print("Player " + this.currentPlayer.getName() + "lost.");

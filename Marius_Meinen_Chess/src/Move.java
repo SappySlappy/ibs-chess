@@ -7,7 +7,7 @@ public class Move {
     private String pieceForPawn;
     private int teamNumber;
 
-    public Move(int startRow, int startColumn, int destinationRow, int destinationColumn, boolean pawnTraded, String pieceForPawn, int teamNumber){
+    public Move(int startRow, int startColumn, int destinationRow, int destinationColumn, boolean pawnTraded, String pieceForPawn, int teamNumber) {
         this.startRow = startRow;
         this.startColumn = startColumn;
         this.destinationRow = destinationRow;
@@ -18,38 +18,43 @@ public class Move {
     }
 
     @Override
-    public boolean equals(Object move){
-        Move newMove = (Move)move;
-        return newMove != null
-                && newMove.startRow == this.startRow
+    public boolean equals(Object move) {
+        if (getClass() != move.getClass()) {
+            return false;
+        }
+
+        Move newMove = (Move) move;
+        return newMove.startRow == this.startRow
                 && newMove.getStartColumn() == this.getStartColumn()
                 && newMove.getDestinationRow() == this.getDestinationRow()
                 && newMove.getDestinationColumn() == this.getDestinationColumn();
     }
 
-    int getStartRow(){
+    int getStartRow() {
         return this.startRow;
     }
 
-    int getStartColumn(){
+    int getStartColumn() {
         return this.startColumn;
     }
 
-    int getDestinationRow(){
+    int getDestinationRow() {
         return this.destinationRow;
     }
 
-    int getDestinationColumn(){
+    int getDestinationColumn() {
         return this.destinationColumn;
     }
 
-    boolean getPawnTraded(){
+    boolean getPawnTraded() {
         return this.pawnTraded;
     }
 
-    String getPieceForPawn(){
+    String getPieceForPawn() {
         return this.pieceForPawn;
     }
 
-    int getTeamNumber(){return this.teamNumber;}
+    int getTeamNumber() {
+        return this.teamNumber;
+    }
 }

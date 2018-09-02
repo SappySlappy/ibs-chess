@@ -40,9 +40,9 @@ public class Bishop extends PieceBase {
             for (int i = startRow; i < 8; i++) {
                 if (destinationCol < 8) {
                     if (board.getField(i, destinationCol) == null) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol,false,null, 0));
+                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                     } else if (board.getField(i, destinationCol) != null && board.getField(i, destinationCol).getTeamNumber() != this.getTeamNumber()) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol,false,null, 0));
+                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                         break;
                     } else {
                         break;
@@ -58,9 +58,9 @@ public class Bishop extends PieceBase {
             for (int i = startRow; i >= 0; i--) {
                 if (destinationCol < 8) {
                     if (board.getField(i, destinationCol) == null) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol,false,null, 0));
+                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                     } else if (board.getField(i, destinationCol) != null && board.getField(i, destinationCol).getTeamNumber() != this.getTeamNumber()) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol,false,null, 0));
+                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                         break;
                     } else {
                         break;
@@ -76,9 +76,9 @@ public class Bishop extends PieceBase {
             for (int i = startRow; i >= 0; i--) {
                 if (destinationCol >= 0) {
                     if (board.getField(i, destinationCol) == null) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol,false,null, 0));
+                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                     } else if (board.getField(i, destinationCol) != null && board.getField(i, destinationCol).getTeamNumber() != this.getTeamNumber()) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol,false,null, 0));
+                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                         break;
                     } else {
                         break;
@@ -94,9 +94,9 @@ public class Bishop extends PieceBase {
             for (int i = startRow; i < 8; i++) {
                 if (destinationCol >= 0) {
                     if (board.getField(i, destinationCol) == null) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol,false,null, 0));
+                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                     } else if (board.getField(i, destinationCol) != null && board.getField(i, destinationCol).getTeamNumber() != this.getTeamNumber()) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol,false,null, 0));
+                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                         break;
                     } else {
                         break;

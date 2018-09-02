@@ -2,26 +2,26 @@ class Referee {
 
     private Board board;
 
-    Referee(Board board){
+    Referee(Board board) {
         this.board = board;
         this.board.printBoard();
     }
 
-    boolean checkNewMove(Move move){
+    boolean checkNewMove(Move move) {
 
         PieceBase piece = null;
-        if (move.getStartRow() < 8 && move.getStartRow() >= 0 && move.getStartColumn() < 8 && move.getStartColumn() >= 0){
-            piece = board.getField(move.getStartRow(),move.getStartColumn());
+        if (move.getStartRow() < 8 && move.getStartRow() >= 0 && move.getStartColumn() < 8 && move.getStartColumn() >= 0) {
+            piece = board.getField(move.getStartRow(), move.getStartColumn());
         }
 
-        if (piece == null){
+        if (piece == null) {
             return true;
         }
-        if (piece.getTeamNumber() != move.getTeamNumber()){
+        if (piece.getTeamNumber() != move.getTeamNumber()) {
             return true;
         }
 
-        if (!piece.isMoveLegal(board,move)){
+        if (!piece.isMoveLegal(board, move)) {
             return true;
         }
 
@@ -32,10 +32,10 @@ class Referee {
 
     boolean checkIfPiecesLeft(Player currentPlayer) {
         PieceBase piece;
-        for (int i = 0; i<8;i++){
-            for (int j = 0;j<8;j++){
-                piece = this.board.getField(i,j);
-                if (piece != null && piece.getTeamNumber() == currentPlayer.getTeamNumber()){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                piece = this.board.getField(i, j);
+                if (piece != null && piece.getTeamNumber() == currentPlayer.getTeamNumber()) {
                     return false;
                 }
             }

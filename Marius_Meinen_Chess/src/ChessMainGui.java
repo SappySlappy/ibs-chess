@@ -13,30 +13,29 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class ChessMainGui extends Application{
+public class ChessMainGui extends Application {
 
     private MenuBar menuBar;
     private ToolBar toolBar;
     private BorderPane root;
     private Game game;
 
-    public static void main(String[] args){     //throws Exception
+    public static void main(String[] args) {     //throws Exception
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage){      //trows Exception
-        this.game = new Game(new Player(new Board(),"Player A",2),new Player(new Board(),"Player B",1), new Referee(new Board()));
+    public void start(Stage primaryStage) {      //trows Exception
+        this.game = new Game(new Player(new Board(), "Player A", 2), new Player(new Board(), "Player B", 1), new Referee(new Board()));
         this.CreateMenuBar();
         this.CreateToolBar();
         this.CreateLayout();
 
-        Scene scene = new Scene(this.root,800,800);
+        Scene scene = new Scene(this.root, 800, 800);
         primaryStage.setTitle("Chess");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
 
 
     private void CreateMenuBar() {
@@ -60,8 +59,8 @@ public class ChessMainGui extends Application{
         stopMenuItem.setAccelerator(KeyCombination.keyCombination("SHORTCUT+H"));
         closeMenuItem.setAccelerator(KeyCombination.keyCombination("SHORTCUT+C"));
 
-        openMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("Images/Open-file-icon.png").toString(), 15,15,false,true)));
-        printMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("Images/print.png").toString(),15,15,false,true)));
+        openMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("Images/Open-file-icon.png").toString(), 15, 15, false, true)));
+        printMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("Images/print.png").toString(), 15, 15, false, true)));
 
         isPlayerAHumanMenuItem.setSelected(true);
         isPlayerBHumanMenuItem.setSelected(true);
@@ -81,10 +80,10 @@ public class ChessMainGui extends Application{
         Button StartButton = new Button();
         Button StopButton = new Button();
 
-        OpenButton.setGraphic(new ImageView(new Image(getClass().getResource("Images/Open-file-icon.png").toExternalForm(), 30,30,true,false)));
-        SaveButton.setGraphic(new ImageView(new Image(getClass().getResource("Images/blue-save-disk-icon.png").toString(), 30,30,true,false)));
-        StartButton.setGraphic(new ImageView(new Image(getClass().getResource("Images/start_icon.png").toString(), 30,30,true,false)));
-        StopButton.setGraphic(new ImageView(new Image(getClass().getResource("Images/stop_icon.png").toString(), 30,30,true,false)));
+        OpenButton.setGraphic(new ImageView(new Image(getClass().getResource("Images/Open-file-icon.png").toExternalForm(), 30, 30, true, false)));
+        SaveButton.setGraphic(new ImageView(new Image(getClass().getResource("Images/blue-save-disk-icon.png").toString(), 30, 30, true, false)));
+        StartButton.setGraphic(new ImageView(new Image(getClass().getResource("Images/start_icon.png").toString(), 30, 30, true, false)));
+        StopButton.setGraphic(new ImageView(new Image(getClass().getResource("Images/stop_icon.png").toString(), 30, 30, true, false)));
 
         OpenButton.setTooltip(new Tooltip("Opens a saved game."));
         SaveButton.setTooltip(new Tooltip("Saves the current game."));
@@ -105,12 +104,12 @@ public class ChessMainGui extends Application{
         VBox botVBox = new VBox();
         HBox infoLabelBox = new HBox();
 
-        VBox.setMargin(topLabel, new Insets(10,10,0,10));
-        HBox.setMargin(infoLabel, new Insets(0,10,10,10));
+        VBox.setMargin(topLabel, new Insets(10, 10, 0, 10));
+        HBox.setMargin(infoLabel, new Insets(0, 10, 10, 10));
 
         topVBox.getChildren().addAll(this.menuBar, this.toolBar, topLabel);
         infoLabelBox.getChildren().addAll(infoLabel);
-        botVBox.getChildren().addAll(botLabel,infoLabelBox);
+        botVBox.getChildren().addAll(botLabel, infoLabelBox);
         GamePane gameFieldPane = new GamePane(this.game.getRefereeBoard());
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
