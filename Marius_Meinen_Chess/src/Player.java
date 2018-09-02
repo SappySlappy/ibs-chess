@@ -36,9 +36,14 @@ class Player {
         System.out.print("To column: ");
         int destinationColumn = scanner.nextInt();
 
+        return this.buildMove(startRow, startColumn, destinationRow, destinationColumn);
+    }
+
+    private Move buildMove(int startRow, int startColumn, int destinationRow, int destinationColumn) {
         PieceBase pawn;
         String tradePiece;
         Move move;
+
         if (startRow < 8 && startRow >= 0 && startColumn < 8 && startColumn >= 0) {
             pawn = this.board.getField(startRow, startColumn);
             if (pawn != null && pawn.getPieceName().endsWith("P")) {
@@ -61,6 +66,7 @@ class Player {
         } else {
             move = new Move(startRow, startColumn, destinationRow, destinationColumn, false, null, teamNumber);
         }
+
         return move;
     }
 

@@ -18,18 +18,15 @@ public class Bishop extends PieceBase {
     }
 
     private void createList(Board board) {
-        //to bottom right
         int destinationCol = this.col + 1;
         checkMovementToRightDown(board, destinationCol, this.row + 1);
 
-        //to top right
         destinationCol = this.col + 1;
         checkMovementToRightUp(board, destinationCol, this.row - 1);
 
-        //to bottom left
         destinationCol = this.col - 1;
         checkMovementToLeftDown(board, destinationCol, this.row + 1);
-        //to top left
+
         destinationCol = this.col - 1;
         checkMovementToLeftUp(board, destinationCol, this.row - 1);
 

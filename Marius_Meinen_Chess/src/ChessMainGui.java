@@ -115,8 +115,6 @@ public class ChessMainGui extends Application {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-        //scrollPane.setContent(gameFieldPane);
-
         StackPane stackpane = new StackPane(gameFieldPane);
         scrollPane.setContent(stackpane);
 

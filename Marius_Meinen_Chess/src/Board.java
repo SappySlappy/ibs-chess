@@ -16,28 +16,32 @@ public class Board {
             this.board[move.getDestinationRow()][move.getDestinationColumn()].setNewField(move.getDestinationRow(), move.getDestinationColumn());
             //set original position to null
             this.board[move.getStartRow()][move.getStartColumn()] = null;
+            //Check if pawn is traded
+            this.checkIfPawnIsTraded(move);
+        }
+    }
 
-            if (move.getPawnTraded()) {
-                PieceBase pieceForPawn;
-                String colour = move.getTeamNumber() == 1 ? "S" : "W";
-                switch (move.getPieceForPawn()) {
-                    case "Q":
-                        pieceForPawn = new Queen(move.getTeamNumber(), colour + move.getPieceForPawn(), move.getDestinationRow(), move.getDestinationColumn());
-                        this.setField(pieceForPawn, move.getDestinationRow(), move.getDestinationColumn());
-                        break;
-                    case "R":
-                        pieceForPawn = new Rook(move.getTeamNumber(), colour + move.getPieceForPawn(), move.getDestinationRow(), move.getDestinationColumn());
-                        this.setField(pieceForPawn, move.getDestinationRow(), move.getDestinationColumn());
-                        break;
-                    case "S":
-                        pieceForPawn = new Knight(move.getTeamNumber(), colour + move.getPieceForPawn(), move.getDestinationRow(), move.getDestinationColumn());
-                        this.setField(pieceForPawn, move.getDestinationRow(), move.getDestinationColumn());
-                        break;
-                    case "L":
-                        pieceForPawn = new Bishop(move.getTeamNumber(), colour + move.getPieceForPawn(), move.getDestinationRow(), move.getDestinationColumn());
-                        this.setField(pieceForPawn, move.getDestinationRow(), move.getDestinationColumn());
-                        break;
-                }
+    private void checkIfPawnIsTraded(Move move) {
+        if (move.getPawnTraded()) {
+            PieceBase pieceForPawn;
+            String colour = move.getTeamNumber() == 1 ? "S" : "W";
+            switch (move.getPieceForPawn()) {
+                case "Q":
+                    pieceForPawn = new Queen(move.getTeamNumber(), colour + move.getPieceForPawn(), move.getDestinationRow(), move.getDestinationColumn());
+                    this.setField(pieceForPawn, move.getDestinationRow(), move.getDestinationColumn());
+                    break;
+                case "R":
+                    pieceForPawn = new Rook(move.getTeamNumber(), colour + move.getPieceForPawn(), move.getDestinationRow(), move.getDestinationColumn());
+                    this.setField(pieceForPawn, move.getDestinationRow(), move.getDestinationColumn());
+                    break;
+                case "S":
+                    pieceForPawn = new Knight(move.getTeamNumber(), colour + move.getPieceForPawn(), move.getDestinationRow(), move.getDestinationColumn());
+                    this.setField(pieceForPawn, move.getDestinationRow(), move.getDestinationColumn());
+                    break;
+                case "L":
+                    pieceForPawn = new Bishop(move.getTeamNumber(), colour + move.getPieceForPawn(), move.getDestinationRow(), move.getDestinationColumn());
+                    this.setField(pieceForPawn, move.getDestinationRow(), move.getDestinationColumn());
+                    break;
             }
         }
     }
