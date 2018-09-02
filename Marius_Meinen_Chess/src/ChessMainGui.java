@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -8,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -114,7 +116,18 @@ public class ChessMainGui extends Application{
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-        scrollPane.setContent(gameFieldPane);
+        //scrollPane.setContent(gameFieldPane);
+
+        StackPane stackpane = new StackPane(gameFieldPane);
+        scrollPane.setContent(stackpane);
+
+        // https://stackoverflow.com/questions/30687994/how-to-center-the-content-of-a-javafx-8-scrollpane
+        stackpane.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+                scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
+
+        stackpane.minHeightProperty().bind(Bindings.createDoubleBinding(() ->
+                scrollPane.getViewportBounds().getHeight(), scrollPane.viewportBoundsProperty()));
+
         this.root.setTop(topVBox);
         this.root.setCenter(scrollPane);
         this.root.setBottom(botVBox);
