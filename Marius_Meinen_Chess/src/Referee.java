@@ -42,4 +42,8 @@ class Referee {
         }
         return true;
     }
+
+    public Board getBoard() {
+        return this.board;
+    }
 }

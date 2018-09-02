@@ -16,6 +16,7 @@ public class ChessMainGui extends Application{
     private MenuBar menuBar;
     private ToolBar toolBar;
     private BorderPane root;
+    private Game game;
 
     public static void main(String[] args){     //throws Exception
         launch(args);
@@ -23,6 +24,7 @@ public class ChessMainGui extends Application{
 
     @Override
     public void start(Stage primaryStage){      //trows Exception
+        this.game = new Game(new Player(new Board(),"Player A",2),new Player(new Board(),"Player B",1), new Referee(new Board()));
         this.CreateMenuBar();
         this.CreateToolBar();
         this.CreateLayout();
@@ -107,7 +109,7 @@ public class ChessMainGui extends Application{
         topVBox.getChildren().addAll(this.menuBar, this.toolBar, topLabel);
         infoLabelBox.getChildren().addAll(infoLabel);
         botVBox.getChildren().addAll(botLabel,infoLabelBox);
-        GamePane gameFieldPane = new GamePane(new Board());
+        GamePane gameFieldPane = new GamePane(this.game.getRefereeBoard());
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
