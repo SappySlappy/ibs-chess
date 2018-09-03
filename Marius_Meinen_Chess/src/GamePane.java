@@ -1,12 +1,15 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
 class GamePane extends Region {
+    private Canvas canvas;
     private GraphicsContext gc;
     private int cellSpace;
+    PieceBase dragPiece;
 
     private Board board;
     private Image blackRook;
@@ -30,9 +33,28 @@ class GamePane extends Region {
         this.setMinSize(cellSpace * 10, cellSpace * 10);
         this.setMaxSize(cellSpace * 10, cellSpace * 10);
         this.loadChessImages();
+        this.drawBoard(null,null);
+    }
+
+    private void drawBoard(PieceBase piece,MouseEvent e){
         this.createGameFieldPane();
-        this.drawPieces();
+        this.drawPieces(piece,e);
         this.drawSideText();
+    }
+
+
+    private void redrawBoard(MouseEvent e){
+        int x =(int) e.getX()/this.cellSpace-1;
+        int y =(int) e.getY()/this.cellSpace-1;
+        if (x >= 0 && x<8 && y >= 0 && y<8 && dragPiece == null){
+            dragPiece = this.board.getField(y,x);
+            this.updateBoard(dragPiece,e);
+        }
+    }
+
+    private void updateBoard(PieceBase clickedPawn, MouseEvent e)
+    {
+        this.drawBoard(clickedPawn,e);
     }
 
     private void drawSideText() {
@@ -77,10 +99,14 @@ class GamePane extends Region {
         this.whiteKing = new Image(getClass().getResource("Images/White_King.png").toString(), 40, 40, false, true);
         this.whiteQueen = new Image(getClass().getResource("Images/White_Queen.png").toString(), 40, 40, false, true);
         this.whitePawn = new Image(getClass().getResource("Images/White_Pawn.png").toString(), 40, 40, false, true);
+
     }
 
     private void createGameFieldPane() {
-        Canvas canvas = new Canvas(700, 700);
+        this.canvas = new Canvas(700, 700);
+        this.canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, this::redrawBoard);
+        this.canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::redrawBoard);
+        this.canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, this::redrawBoard);
         this.gc = canvas.getGraphicsContext2D();
 
         for (int i = 0; i < 8; i++) {
@@ -95,14 +121,19 @@ class GamePane extends Region {
         this.getChildren().add(canvas);
     }
 
-    private void drawPieces() {
+    private void drawPieces(PieceBase doNotDrawPiece, MouseEvent e) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 PieceBase piece = this.board.getField(i, j);
-                if (piece != null) {
+                if (piece != null && !piece.equals(doNotDrawPiece)) {
                     if (piece instanceof Queen) {
                         if (piece.getTeamNumber() == 1) {
-                            this.gc.drawImage(this.blackQueen, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
+                            if (!piece.equals(doNotDrawPiece)){
+                                this.gc.drawImage(this.blackQueen, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
+                            }
+                            else{
+                                this.gc.drawImage(this.blackQueen, e.getX(), e.getY(), this.cellSpace, this.cellSpace);
+                            }
                         } else {
                             this.gc.drawImage(this.whiteQueen, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
                         }

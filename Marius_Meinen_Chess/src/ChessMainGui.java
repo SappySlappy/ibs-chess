@@ -1,5 +1,7 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -26,12 +28,14 @@ public class ChessMainGui extends Application {
 
     @Override
     public void start(Stage primaryStage) {      //trows Exception
-        this.game = new Game(new Player(new Board(), "Player A", 2), new Player(new Board(), "Player B", 1), new Referee(new Board()));
+        this.game = new Game(new Player(new Board(), "Player A", 2),
+                new Player(new Board(), "Player B", 1),
+                new Referee(new Board()));
         this.CreateMenuBar();
         this.CreateToolBar();
         this.CreateLayout();
 
-        Scene scene = new Scene(this.root, 800, 800);
+        Scene scene = new Scene(this.root, 700, 700);
         primaryStage.setTitle("Chess");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -45,7 +49,7 @@ public class ChessMainGui extends Application {
         Menu playerAMenu = new Menu("Player _A");
         Menu playerBMenu = new Menu("Player _B");
 
-        MenuItem openMenuItem = new MenuItem("_Open");
+        MenuItem newMenuItem = new MenuItem("_New");
         MenuItem printMenuItem = new MenuItem("_Print");
         MenuItem startMenuItem = new MenuItem("_Start");
         MenuItem stopMenuItem = new MenuItem("_Stop");
@@ -53,13 +57,13 @@ public class ChessMainGui extends Application {
         RadioMenuItem isPlayerAHumanMenuItem = new RadioMenuItem("_Human");
         RadioMenuItem isPlayerBHumanMenuItem = new RadioMenuItem("_Human");
 
-        openMenuItem.setAccelerator(KeyCombination.keyCombination("SHORTCUT+O"));
+        newMenuItem.setAccelerator(KeyCombination.keyCombination("SHORTCUT+N"));
         printMenuItem.setAccelerator(KeyCombination.keyCombination("SHORTCUT+P"));
         startMenuItem.setAccelerator(KeyCombination.keyCombination("SHORTCUT+S"));
         stopMenuItem.setAccelerator(KeyCombination.keyCombination("SHORTCUT+H"));
         closeMenuItem.setAccelerator(KeyCombination.keyCombination("SHORTCUT+C"));
 
-        openMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("Images/Open-file-icon.png").toString(), 15, 15, false, true)));
+        newMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("Images/Open-file-icon.png").toString(), 15, 15, false, true)));
         printMenuItem.setGraphic(new ImageView(new Image(getClass().getResource("Images/print.png").toString(), 15, 15, false, true)));
 
         isPlayerAHumanMenuItem.setSelected(true);
@@ -67,7 +71,10 @@ public class ChessMainGui extends Application {
 
         playerAMenu.getItems().add(isPlayerAHumanMenuItem);
         playerBMenu.getItems().add(isPlayerBHumanMenuItem);
-        gameMenu.getItems().addAll(openMenuItem, printMenuItem, new SeparatorMenuItem(), startMenuItem, stopMenuItem, new SeparatorMenuItem(), closeMenuItem);
+        gameMenu.getItems().addAll(newMenuItem, printMenuItem, new SeparatorMenuItem(), startMenuItem, stopMenuItem, new SeparatorMenuItem(), closeMenuItem);
+
+        newMenuItem.addEventHandler(ActionEvent.ACTION, e -> this.start(new Stage()));
+        closeMenuItem.addEventHandler(ActionEvent.ACTION, e -> Platform.exit());
 
         this.menuBar.getMenus().addAll(gameMenu, playerAMenu, playerBMenu);
     }
