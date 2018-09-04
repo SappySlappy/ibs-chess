@@ -127,59 +127,46 @@ class GamePane extends Region {
                 PieceBase piece = this.board.getField(i, j);
                 if (piece != null && !piece.equals(doNotDrawPiece)) {
                     if (piece instanceof Queen) {
-                        if (piece.getTeamNumber() == 1) {
-                            if (!piece.equals(doNotDrawPiece)){
-                                this.gc.drawImage(this.blackQueen, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                            }
-                            else{
-                                this.gc.drawImage(this.blackQueen, e.getX(), e.getY(), this.cellSpace, this.cellSpace);
-                            }
-                        } else {
-                            this.gc.drawImage(this.whiteQueen, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                        }
+                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackQueen,this.whiteQueen);
                     }
 
                     if (piece instanceof King) {
-                        if (piece.getTeamNumber() == 1) {
-                            this.gc.drawImage(this.blackKing, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                        } else {
-                            this.gc.drawImage(this.whiteKing, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                        }
+                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackKing,this.whiteKing);
                     }
 
                     if (piece instanceof Bishop) {
-                        if (piece.getTeamNumber() == 1) {
-                            this.gc.drawImage(this.blackBishop, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                        } else {
-                            this.gc.drawImage(this.whiteBishop, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                        }
+                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackBishop,this.whiteBishop);
                     }
 
                     if (piece instanceof Knight) {
-                        if (piece.getTeamNumber() == 1) {
-                            this.gc.drawImage(this.blackKnight, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                        } else {
-                            this.gc.drawImage(this.whiteKnight, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                        }
+                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackKnight,this.whiteKnight);
                     }
 
                     if (piece instanceof Rook) {
-                        if (piece.getTeamNumber() == 1) {
-                            this.gc.drawImage(this.blackRook, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                        } else {
-                            this.gc.drawImage(this.whiteRook, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                        }
+                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackRook,this.whiteRook);
                     }
 
                     if (piece instanceof Pawn) {
-                        if (piece.getTeamNumber() == 1) {
-                            this.gc.drawImage(this.blackPawn, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                        } else {
-                            this.gc.drawImage(this.whitePawn, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
-                        }
+                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackPawn,this.whitePawn);
                     }
                 }
             }
+        }
+    }
+
+    private void drawImage(int i, int j,PieceBase piece, PieceBase doNotDrawPiece,MouseEvent e, Image blackPieceImage, Image whitePieceImage){
+        if (piece.getTeamNumber() == 1) {
+            if (!piece.equals(doNotDrawPiece)){
+                this.gc.drawImage(blackPieceImage, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
+            }
+            else{
+                this.gc.drawImage(blackPieceImage, e.getX(), e.getY(), this.cellSpace, this.cellSpace);
+            }
+        } else if (!piece.equals(doNotDrawPiece)){
+            this.gc.drawImage(whitePieceImage, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
+        }
+        else{
+            this.gc.drawImage(whitePieceImage, e.getX(), e.getY(), this.cellSpace, this.cellSpace);
         }
     }
 }

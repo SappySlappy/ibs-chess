@@ -125,7 +125,6 @@ public class ChessMainGui extends Application {
         StackPane stackpane = new StackPane(gameFieldPane);
         scrollPane.setContent(stackpane);
 
-        // https://stackoverflow.com/questions/30687994/how-to-center-the-content-of-a-javafx-8-scrollpane
         stackpane.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
                 scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
 
