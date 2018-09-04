@@ -35,7 +35,7 @@ public class Knight extends PieceBase {
             }
         }
 
-        if (this.row - 2 >= 0 && this.col - 1 >= 8) {
+        if (this.row - 2 >= 0 && this.col - 1 >= 0) {
             destinationField = board.getField(this.row - 2, this.col - 1);
             if (destinationField == null || destinationField.getTeamNumber() != this.getTeamNumber()) {
                 this.possibleMoves.add(new Move(this.row, this.col, this.row - 2, this.col - 1, false, null, 0));

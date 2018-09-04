@@ -139,7 +139,7 @@ class GamePane extends Region {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 PieceBase piece = this.board.getField(i, j);
-                if (piece != null && !piece.equals(doNotDrawPiece)) {
+                if (piece != null) {
                     if (piece instanceof Queen) {
                         this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackQueen,this.whiteQueen);
                     }
@@ -174,13 +174,13 @@ class GamePane extends Region {
                 this.gc.drawImage(blackPieceImage, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
             }
             else{
-                this.gc.drawImage(blackPieceImage, e.getX(), e.getY(), this.cellSpace, this.cellSpace);
+                this.gc.drawImage(blackPieceImage,  e.getX()-30, e.getY()-30, this.cellSpace, this.cellSpace);
             }
         } else if (!piece.equals(doNotDrawPiece)){
             this.gc.drawImage(whitePieceImage, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
         }
         else{
-            this.gc.drawImage(whitePieceImage, e.getX(), e.getY(), this.cellSpace, this.cellSpace);
+            this.gc.drawImage(whitePieceImage, e.getX()-30, e.getY()-30, this.cellSpace, this.cellSpace);
         }
     }
 }
