@@ -13,6 +13,10 @@ class Game {
         this.isGameFinished = false;
     }
 
+    public Referee getReferee(){
+        return this.referee;
+    }
+
     void startGame() {
         this.currentPlayer = this.playerA;
         Move currentMove = this.currentPlayer.makeAMove();
@@ -29,10 +33,6 @@ class Game {
         }
 
         System.out.print("Player " + this.currentPlayer.getName() + "lost.");
-    }
-
-    Board getRefereeBoard(){
-        return this.referee.getBoard();
     }
 
     private void switchPlayer(){

@@ -22,4 +22,13 @@ public class Queen extends PieceBase {
         return true;
     }
 
+    @Override
+    protected void createList(Board board){
+        this.possibleMoves = new ArrayList<>();
+        PieceBase piece = new Bishop(this.getTeamNumber(), "", this.row, this.col);
+        this.possibleMoves = piece.getListOfMoves(board);
+        piece = new Rook(this.getTeamNumber(), "", this.row, this.col);
+        this.possibleMoves.addAll(piece.getListOfMoves(board));
+    }
+
 }

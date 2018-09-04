@@ -50,7 +50,21 @@ class GamePane extends Region {
             dragPiece = this.board.getField(y,x);
             this.updateBoard(dragPiece,e);
         }
+
+        if (dragPiece != null){
+            this.fillAllPossibleFields(dragPiece,y,x);
+        }
     }
+
+    private void fillAllPossibleFields(PieceBase dragPiece, int row, int col) {
+        for(Move move : dragPiece.getListOfMoves(this.board))
+        {
+            this.gc.rect((this.cellSpace * move.getDestinationColumn() + this.cellSpace), (this.cellSpace * move.getDestinationRow() + this.cellSpace), this.cellSpace, this.cellSpace);
+            this.gc.setFill(new Color(0.2,0.6,0.2,0.2));
+            this.gc.fillRect((this.cellSpace * move.getDestinationColumn() + this.cellSpace), (this.cellSpace * move.getDestinationRow() + this.cellSpace), this.cellSpace, this.cellSpace);
+        }
+    }
+
 
     private void updateBoard(PieceBase clickedPawn, MouseEvent e)
     {
@@ -106,7 +120,7 @@ class GamePane extends Region {
         this.canvas = new Canvas(700, 700);
         this.canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, this::redrawBoard);
         this.canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::redrawBoard);
-        this.canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, this::redrawBoard);
+        //this.canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, this::redrawBoard);
         this.gc = canvas.getGraphicsContext2D();
 
         for (int i = 0; i < 8; i++) {

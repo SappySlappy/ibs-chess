@@ -16,6 +16,17 @@ public class Pawn extends PieceBase {
         return this.checkBasicMovement(board, move);
     }
 
+    @Override
+    protected void createList(Board board){
+        this.possibleMoves = new ArrayList<>();
+        if (this.getTeamNumber() == 1) {
+            this.createListForBlackPawn(board);
+        }
+        else {
+            createListForWhitePawn(board);
+        }
+    }
+
     private boolean checkBasicMovement(Board board, Move move) {
         PieceBase pawn = board.getField(move.getStartRow(), move.getStartColumn());
         if (pawn.getTeamNumber() == 1) {

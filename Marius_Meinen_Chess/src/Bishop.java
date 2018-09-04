@@ -17,7 +17,9 @@ public class Bishop extends PieceBase {
         return this.possibleMoves.contains(move);
     }
 
-    private void createList(Board board) {
+    @Override
+    protected void createList(Board board) {
+        this.possibleMoves = new ArrayList<>();
         int destinationCol = this.col + 1;
         checkMovementToRightDown(board, destinationCol, this.row + 1);
 

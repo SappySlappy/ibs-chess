@@ -19,7 +19,9 @@ public class Rook extends PieceBase {
 
     }
 
-    private void createList(Board board) {
+    @Override
+    protected void createList(Board board) {
+        this.possibleMoves = new ArrayList<>();
         // moves to bottom
         if (row + 1 < 8) {
             for (int i = this.row + 1; i < 8; i++) {

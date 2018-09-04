@@ -17,7 +17,9 @@ public class Knight extends PieceBase {
         return this.possibleMoves.contains(move);
     }
 
-    private void createList(Board board) {
+    @Override
+    protected void createList(Board board) {
+        this.possibleMoves = new ArrayList<>();
         PieceBase destinationField;
         if (this.row + 2 < 8 && this.col + 1 < 8) {
             destinationField = board.getField(this.row + 2, this.col + 1);

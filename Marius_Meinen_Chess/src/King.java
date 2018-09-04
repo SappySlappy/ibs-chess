@@ -17,7 +17,9 @@ public class King extends PieceBase {
         return this.possibleMoves.contains(move);
     }
 
-    private void createList(Board board) {
+    @Override
+    protected void createList(Board board) {
+        this.possibleMoves = new ArrayList<>();
         PieceBase destinationField;
         if (this.row + 1 < 8) {
             destinationField = board.getField(this.row + 1, this.col);

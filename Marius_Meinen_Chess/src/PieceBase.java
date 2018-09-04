@@ -4,7 +4,7 @@ public abstract class PieceBase {
 
     private int teamNumber;
     private String name;
-    ArrayList<Move> possibleMoves;
+    protected ArrayList<Move> possibleMoves;
     int row;
     int col;
 
@@ -23,10 +23,10 @@ public abstract class PieceBase {
         return this.name;
     }
 
-    // Will be used later maybe
-    //public ArrayList<Move> getListOfMoves() {
-    //    return this.possibleMoves;
-    //}
+    public ArrayList<Move> getListOfMoves(Board board) {
+        this.createList(board);
+        return this.possibleMoves;
+    }
 
     public boolean isMoveLegal(Board board, Move move) {
         if (move.getStartColumn() == move.getDestinationColumn() && move.getStartRow() == move.getDestinationRow()) {
@@ -45,4 +45,6 @@ public abstract class PieceBase {
         this.row = row;
         this.col = column;
     }
+
+    protected abstract void createList(Board board);
 }
