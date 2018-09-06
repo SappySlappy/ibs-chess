@@ -11,4 +11,8 @@ public class GameManager {
     public Game getCurrentGame(){
         return this.game;
     }
+
+    public Player getCurrentPlayer(){
+        return this.game.getCurrentPlayer();
+    }
 }

@@ -46,5 +46,13 @@ public abstract class PieceBase {
         this.col = column;
     }
 
+    public int getStartRow(){
+        return this.row;
+    }
+
+    public int getStartCol(){
+        return this.col;
+    }
+
     protected abstract void createList(Board board);
 }

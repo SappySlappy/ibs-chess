@@ -11,6 +11,14 @@ class Game {
         this.playerB = playerB;
         this.referee = referee;
         this.isGameFinished = false;
+        this.currentPlayer = this.playerA;
+    }
+
+    public void executeMove(Move move){
+        this.referee.checkNewMove(move);
+        this.getCurrentPlayer().executeMove(move);
+        this.switchPlayer();
+        this.getCurrentPlayer().executeMove(move);
     }
 
     public Referee getReferee(){
@@ -18,7 +26,7 @@ class Game {
     }
 
     void startGame() {
-        this.currentPlayer = this.playerA;
+
         Move currentMove = this.currentPlayer.makeAMove();
         this.isGameFinished = this.referee.checkNewMove(currentMove);
 
@@ -37,6 +45,10 @@ class Game {
 
     private void switchPlayer(){
         this.currentPlayer = this.currentPlayer == this.playerA ? this.playerB : this.playerA;
+    }
+
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
     }
 }
 

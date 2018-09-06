@@ -115,7 +115,7 @@ public class ChessMainGui extends Application {
         topVBox.getChildren().addAll(this.menuBar, this.toolBar, topLabel);
         infoLabelBox.getChildren().addAll(infoLabel);
         botVBox.getChildren().addAll(botLabel, infoLabelBox);
-        GamePane gameFieldPane = new GamePane(this.gameManager.getCurrentGame().getReferee().getBoard());
+        GamePane gameFieldPane = new GamePane(this.gameManager);
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
