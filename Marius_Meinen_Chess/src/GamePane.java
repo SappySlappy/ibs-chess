@@ -138,7 +138,12 @@ class GamePane extends Region {
         String text;
         int halfCellSpace = this.cellSpace / 2;
         for (int i = 8; i > 0; i--) {
+            this.gc.clearRect(0,i*cellSpace,cellSpace,cellSpace);
+            this.gc.clearRect(cellSpace*9,i*cellSpace,cellSpace,cellSpace);
+            this.gc.clearRect(i*cellSpace,cellSpace*9,cellSpace,cellSpace);
+            this.gc.clearRect(i*cellSpace,0,cellSpace,cellSpace);
             text = i + "";
+            gc.setFill(Color.BLACK);
             this.gc.fillText(text, halfCellSpace, cellSpace * i + halfCellSpace);
             this.gc.fillText(text, cellSpace * 9 + halfCellSpace, cellSpace * i + halfCellSpace);
         }
