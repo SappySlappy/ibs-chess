@@ -1,17 +1,27 @@
-import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 class GamePane extends Region {
-    private Canvas canvas;
     private GraphicsContext gc;
     private int cellSpace;
-    PieceBase dragPiece;
+    private PieceBase dragPiece;
     private GameManager gameManager;
+    private boolean isPawnTraded;
+    private String pieceForPawn;
+    private Stage tradePawnPopUpWindow;
 
     private Image blackRook;
     private Image blackKnight;
@@ -34,49 +44,45 @@ class GamePane extends Region {
         this.setMinSize(cellSpace * 10, cellSpace * 10);
         this.setMaxSize(cellSpace * 10, cellSpace * 10);
         this.loadChessImages();
-        this.canvas = new Canvas(700, 700);
+        Canvas canvas = new Canvas(700, 700);
         this.gc = canvas.getGraphicsContext2D();
         this.getChildren().add(canvas);
         this.drawBoard(null,null);
 
-        this.canvas.addEventHandler(MouseEvent.DRAG_DETECTED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("mouse drag detected");
-                getDragPiece(event);
-                if (dragPiece != null && dragPiece.getTeamNumber() != gameManager.getCurrentGame().getCurrentPlayer().getTeamNumber()){
-                    dragPiece = null;
-                }
-
-            }
-        });
-
-        this.canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("mouse dragged");
-                redrawBoard(event);
-                event.consume();
-            }
-        });
-
-        this.canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("mouse released");
-                if (dragPiece != null) {
-                    executeDragAndDropOnBoard(event);
-                }
+        canvas.addEventHandler(MouseEvent.DRAG_DETECTED, event -> {
+            getDragPiece(event);
+            event.consume();
+            if (dragPiece != null && dragPiece.getTeamNumber() != gameManager.getCurrentGame().getCurrentPlayer().getTeamNumber()){
                 dragPiece = null;
-                redrawBoard(null);
             }
         });
+
+        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
+            redrawBoard(event);
+            event.consume();
+        });
+
+        canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
+            if (dragPiece != null) {
+                executeDragAndDropOnBoard(event);
+            }
+            event.consume();
+            dragPiece = null;
+            redrawBoard(null);
+        });
+
+        this.createTradePawnWindow();
     }
 
     private void executeDragAndDropOnBoard(MouseEvent event) {
+        isPawnTraded = false;
+        pieceForPawn = null;
         int col =(int) event.getX()/this.cellSpace-1;
         int row =(int) event.getY()/this.cellSpace-1;
-        Move move = new Move(dragPiece.getStartRow(),dragPiece.getStartCol(),row,col,false,null,dragPiece.getTeamNumber());
+        if (dragPiece instanceof Pawn && row == 0 || row == 7){
+            tradePawnPopUpWindow.showAndWait();
+        }
+        Move move = new Move(dragPiece.getStartRow(),dragPiece.getStartCol(),row,col,isPawnTraded,pieceForPawn,dragPiece.getTeamNumber());
         if (this.dragPiece.possibleMoves.contains(move))
         {
             gameManager.getCurrentGame().executeMove(move);
@@ -84,6 +90,50 @@ class GamePane extends Region {
         }
         this.dragPiece = null;
         updateBoard(null,null);
+    }
+
+    private void createTradePawnWindow(){
+        tradePawnPopUpWindow = new Stage();
+        tradePawnPopUpWindow.setTitle(gameManager.getCurrentPlayer().getName() + " can trade a pawn.");
+        VBox vBox = new VBox();
+        ToggleGroup group = new ToggleGroup();
+        RadioButton queen = new RadioButton("Queen");
+        queen.setToggleGroup(group);
+        queen.setSelected(true);
+        RadioButton knight = new RadioButton("Knight");
+        knight.setToggleGroup(group);
+        RadioButton rook = new RadioButton("Rook");
+        rook.setToggleGroup(group);
+        RadioButton bishop = new RadioButton("Bishop");
+        bishop.setToggleGroup(group);
+        Button acceptTrade = new Button("Trade Pawn");
+        acceptTrade.setOnAction(event1 -> {
+            isPawnTraded = true;
+            if (queen.isSelected()){
+                pieceForPawn = "Q";
+            }
+            if (rook.isSelected()){
+                pieceForPawn = "T";
+            }
+            if (knight.isSelected()){
+                pieceForPawn = "S";
+            }
+            if (bishop.isSelected()){
+                pieceForPawn = "L";
+            }
+
+            tradePawnPopUpWindow.close();
+        });
+        VBox.setMargin(queen,new Insets(10,10,10,10));
+        VBox.setMargin(knight,new Insets(0,10,10,10));
+        VBox.setMargin(rook,new Insets(0,10,10,10));
+        VBox.setMargin(bishop,new Insets(0,10,10,10));
+        VBox.setMargin(acceptTrade,new Insets(0,10,10,10));
+        vBox.getChildren().addAll(queen,knight,rook,bishop,acceptTrade);
+        Scene tradeScene = new Scene(vBox,200,150);
+        tradePawnPopUpWindow.setScene(tradeScene);
+        tradePawnPopUpWindow.initModality(Modality.APPLICATION_MODAL);
+        tradePawnPopUpWindow.initStyle(StageStyle.UNDECORATED);
     }
 
     private void drawBoard(PieceBase piece,MouseEvent e){
@@ -131,7 +181,6 @@ class GamePane extends Region {
     private void updateBoard(PieceBase clickedPawn, MouseEvent e)
     {
         this.drawBoard(clickedPawn,e);
-
     }
 
     private void drawSideText() {

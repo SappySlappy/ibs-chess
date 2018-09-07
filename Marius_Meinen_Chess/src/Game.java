@@ -15,8 +15,8 @@ class Game {
     }
 
     public void executeMove(Move move){
-        this.referee.checkNewMove(move);
         this.getCurrentPlayer().executeMove(move);
+        this.referee.executeMove(move);
         this.switchPlayer();
         this.getCurrentPlayer().executeMove(move);
     }
