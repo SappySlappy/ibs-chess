@@ -25,7 +25,7 @@ class GamePane extends Region {
     private String pieceForPawn;
     private Stage tradePawnPopUpWindow;
     private Canvas canvas;
-    private Image canvasImage;
+    private Image dragImage;
 
     private Image blackRook;
     private Image blackKnight;
@@ -64,7 +64,7 @@ class GamePane extends Region {
             }
             else {
                 redrawBoard(event);
-                this.canvasImage = this.canvas.snapshot(new SnapshotParameters(),new WritableImage(this.cellSpace*10,this.cellSpace*10));
+                //this.canvasImage = this.canvas.snapshot(new SnapshotParameters(),new WritableImage(this.cellSpace*10,this.cellSpace*10));
                 this.fillAllPossibleFields(dragPiece,event);
             }
             event.consume();
@@ -92,10 +92,10 @@ class GamePane extends Region {
 
     private void drawDraggedPiece(MouseEvent event) {
         if (dragPiece.getTeamNumber() == 1) {
-            this.gc.drawImage(blackQueen,  event.getX()-30, event.getY()-30, this.cellSpace, this.cellSpace);
+            this.gc.drawImage(this.dragImage,  event.getX()-30, event.getY()-30, this.cellSpace, this.cellSpace);
         }
         else{
-            this.gc.drawImage(whiteQueen, event.getX()-30, event.getY()-30, this.cellSpace, this.cellSpace);
+            this.gc.drawImage(this.dragImage, event.getX()-30, event.getY()-30, this.cellSpace, this.cellSpace);
         }
     }
 
@@ -317,14 +317,14 @@ class GamePane extends Region {
             if (!piece.equals(doNotDrawPiece)){
                 this.gc.drawImage(blackPieceImage, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
             }
-            //else{
-              //  this.gc.drawImage(blackPieceImage,  e.getX()-30, e.getY()-30, this.cellSpace, this.cellSpace);
-            //}
+            else{
+                this.dragImage = blackPieceImage;
+            }
         } else if (!piece.equals(doNotDrawPiece)){
             this.gc.drawImage(whitePieceImage, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
         }
-        //else{
-          //  this.gc.drawImage(whitePieceImage, e.getX()-30, e.getY()-30, this.cellSpace, this.cellSpace);
-        //}
+        else{
+            this.dragImage = whitePieceImage;
+        }
     }
 }
