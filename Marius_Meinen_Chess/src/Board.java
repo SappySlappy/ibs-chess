@@ -87,7 +87,7 @@ public class Board {
 
     private void initializeBlackPieces() {
         board[0][0] = new Rook(1, "ST", 0, 0);
-        /*board[0][1] = new Knight(1, "SS", 0, 1);
+        board[0][1] = new Knight(1, "SS", 0, 1);
         board[0][2] = new Bishop(1, "SL", 0, 2);
         board[0][3] = new King(1, "SK", 0, 3);
         board[0][4] = new Queen(1, "SQ", 0, 4);
@@ -97,12 +97,12 @@ public class Board {
 
         for (int i = 0; i < 8; i++) {
             board[1][i] = new Pawn(1, "SP", 1, i);
-        }*/
+        }
     }
 
     private void initializeWhitePieces() {
         board[7][0] = new Rook(2, "WT", 7, 0);
-       /* board[7][1] = new Knight(2, "WS", 7, 1);
+        board[7][1] = new Knight(2, "WS", 7, 1);
         board[7][2] = new Bishop(2, "WL", 7, 2);
         board[7][3] = new King(2, "WK", 7, 3);
         board[7][4] = new Queen(2, "WQ", 7, 4);
@@ -112,6 +112,6 @@ public class Board {
 
         for (int i = 0; i < 8; i++) {
             board[6][i] = new Pawn(2, "WP", 6, i);
-        }*/
+        }
     }
 }

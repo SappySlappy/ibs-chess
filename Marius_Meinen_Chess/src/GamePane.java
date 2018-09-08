@@ -1,11 +1,13 @@
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -22,6 +24,8 @@ class GamePane extends Region {
     private boolean isPawnTraded;
     private String pieceForPawn;
     private Stage tradePawnPopUpWindow;
+    private Canvas canvas;
+    private Image canvasImage;
 
     private Image blackRook;
     private Image blackKnight;
@@ -44,21 +48,35 @@ class GamePane extends Region {
         this.setMinSize(cellSpace * 10, cellSpace * 10);
         this.setMaxSize(cellSpace * 10, cellSpace * 10);
         this.loadChessImages();
-        Canvas canvas = new Canvas(700, 700);
+        this.canvas = new Canvas(10*this.cellSpace, 10*this.cellSpace);
         this.gc = canvas.getGraphicsContext2D();
         this.getChildren().add(canvas);
         this.drawBoard(null,null);
+        this.addCanvasHandler(canvas);
+        this.createTradePawnWindow();
+    }
 
+    private void addCanvasHandler(Canvas canvas) {
         canvas.addEventHandler(MouseEvent.DRAG_DETECTED, event -> {
             getDragPiece(event);
-            event.consume();
             if (dragPiece != null && dragPiece.getTeamNumber() != gameManager.getCurrentGame().getCurrentPlayer().getTeamNumber()){
                 dragPiece = null;
             }
+            else {
+                redrawBoard(event);
+                this.canvasImage = this.canvas.snapshot(new SnapshotParameters(),new WritableImage(this.cellSpace*10,this.cellSpace*10));
+                this.fillAllPossibleFields(dragPiece,event);
+            }
+            event.consume();
         });
 
         canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
-            redrawBoard(event);
+            if (this.dragPiece != null) {
+                clearCanvas();
+                this.redrawBoard(event);
+                this.fillNotPossibleField(dragPiece,event);
+                this.drawDraggedPiece(event);
+            }
             event.consume();
         });
 
@@ -70,22 +88,40 @@ class GamePane extends Region {
             dragPiece = null;
             redrawBoard(null);
         });
+    }
 
-        this.createTradePawnWindow();
+    private void drawDraggedPiece(MouseEvent event) {
+        if (dragPiece.getTeamNumber() == 1) {
+            this.gc.drawImage(blackQueen,  event.getX()-30, event.getY()-30, this.cellSpace, this.cellSpace);
+        }
+        else{
+            this.gc.drawImage(whiteQueen, event.getX()-30, event.getY()-30, this.cellSpace, this.cellSpace);
+        }
+    }
+
+    private void fillNotPossibleField(PieceBase dragPiece, MouseEvent event) {
+        int col =(int) event.getX()/this.cellSpace-1;
+        int row =(int) event.getY()/this.cellSpace-1;
+
+        if (!this.dragPiece.possibleMoves.contains(new Move(dragPiece.getStartRow(),dragPiece.getStartCol(),row,col,false,null,0)) && row < 8 && row >= 0&& col < 8 && col >= 0)
+        {
+            this.gc.setFill(new Color(1,0,0,0.5));
+            this.gc.fillRect(this.cellSpace*col + this.cellSpace,this.cellSpace*row+this.cellSpace,this.cellSpace,this.cellSpace);
+        }
     }
 
     private void executeDragAndDropOnBoard(MouseEvent event) {
-        isPawnTraded = false;
-        pieceForPawn = null;
+        this.isPawnTraded = false;
+        this.pieceForPawn = null;
         int col =(int) event.getX()/this.cellSpace-1;
         int row =(int) event.getY()/this.cellSpace-1;
-        if (dragPiece instanceof Pawn && row == 0 || row == 7){
-            tradePawnPopUpWindow.showAndWait();
+        if (this.dragPiece instanceof Pawn && (row == 0 || row == 7)){
+            this.tradePawnPopUpWindow.showAndWait();
         }
-        Move move = new Move(dragPiece.getStartRow(),dragPiece.getStartCol(),row,col,isPawnTraded,pieceForPawn,dragPiece.getTeamNumber());
+        Move move = new Move(this.dragPiece.getStartRow(),this.dragPiece.getStartCol(),row,col,this.isPawnTraded,this.pieceForPawn,this.dragPiece.getTeamNumber());
         if (this.dragPiece.possibleMoves.contains(move))
         {
-            gameManager.getCurrentGame().executeMove(move);
+            this.gameManager.getCurrentGame().executeMove(move);
             updateBoard(null,null);
         }
         this.dragPiece = null;
@@ -97,8 +133,8 @@ class GamePane extends Region {
     }
 
     private void createTradePawnWindow(){
-        tradePawnPopUpWindow = new Stage();
-        tradePawnPopUpWindow.setTitle(gameManager.getCurrentPlayer().getName() + " can trade a pawn.");
+        this.tradePawnPopUpWindow = new Stage();
+        this.tradePawnPopUpWindow.setTitle(this.gameManager.getCurrentPlayer().getName() + " can trade a pawn.");
         VBox vBox = new VBox();
         ToggleGroup group = new ToggleGroup();
         RadioButton queen = new RadioButton("Queen");
@@ -112,21 +148,21 @@ class GamePane extends Region {
         bishop.setToggleGroup(group);
         Button acceptTrade = new Button("Trade Pawn");
         acceptTrade.setOnAction(event1 -> {
-            isPawnTraded = true;
+            this.isPawnTraded = true;
             if (queen.isSelected()){
-                pieceForPawn = "Q";
+                this.pieceForPawn = "Q";
             }
             if (rook.isSelected()){
-                pieceForPawn = "T";
+                this.pieceForPawn = "T";
             }
             if (knight.isSelected()){
-                pieceForPawn = "S";
+                this.pieceForPawn = "S";
             }
             if (bishop.isSelected()){
-                pieceForPawn = "L";
+                this.pieceForPawn = "L";
             }
 
-            tradePawnPopUpWindow.close();
+            this.tradePawnPopUpWindow.close();
         });
         VBox.setMargin(queen,new Insets(10,10,10,10));
         VBox.setMargin(knight,new Insets(0,10,10,10));
@@ -149,14 +185,15 @@ class GamePane extends Region {
     private void getDragPiece(MouseEvent event) {
         int col =(int) event.getX()/this.cellSpace-1;
         int row =(int) event.getY()/this.cellSpace-1;
-        if (col >= 0 && col<8 && row >= 0 && row<8 && dragPiece == null){
-            dragPiece = this.gameManager.getCurrentGame().getReferee().getBoard().getField(row,col);
+        if (col >= 0 && col<8 && row >= 0 && row<8 && this.dragPiece == null){
+            this.dragPiece = this.gameManager.getCurrentGame().getReferee().getBoard().getField(row,col);
         }
     }
 
 
     private void redrawBoard(MouseEvent e){
-        if (dragPiece != null){
+        if (this.dragPiece != null){
+            clearCanvas();
             this.updateBoard(dragPiece,e);
             this.fillAllPossibleFields(dragPiece, e);
             this.drawSideText();
@@ -170,15 +207,6 @@ class GamePane extends Region {
             this.gc.setFill(new Color(0.2,0.6,0.2,0.5));
             this.gc.fillRect((this.cellSpace * move.getDestinationColumn() + this.cellSpace), (this.cellSpace * move.getDestinationRow() + this.cellSpace), this.cellSpace, this.cellSpace);
         }
-
-        int col =(int) event.getX()/this.cellSpace-1;
-        int row =(int) event.getY()/this.cellSpace-1;
-
-        if (!this.dragPiece.possibleMoves.contains(new Move(dragPiece.getStartRow(),dragPiece.getStartCol(),row,col,false,null,0)) && row < 8 && row >= 0&& col < 8 && col >= 0)
-        {
-            this.gc.setFill(new Color(1,0,0,0.5));
-            this.gc.fillRect(this.cellSpace*col + this.cellSpace,this.cellSpace*row+this.cellSpace,this.cellSpace,this.cellSpace);
-        }
     }
 
 
@@ -187,18 +215,18 @@ class GamePane extends Region {
         this.drawBoard(clickedPawn,e);
     }
 
+    private void clearCanvas(){
+        this.gc.clearRect(0,0,10*this.cellSpace,10*this.cellSpace);
+    }
+
     private void drawSideText() {
         String text;
         int halfCellSpace = this.cellSpace / 2;
         for (int i = 8; i > 0; i--) {
-            this.gc.clearRect(0,i*cellSpace,cellSpace,cellSpace);
-            this.gc.clearRect(cellSpace*9,i*cellSpace,cellSpace,cellSpace);
-            this.gc.clearRect(i*cellSpace,cellSpace*9,cellSpace,cellSpace);
-            this.gc.clearRect(i*cellSpace,0,cellSpace,cellSpace);
             text = i + "";
-            gc.setFill(Color.BLACK);
-            this.gc.fillText(text, halfCellSpace, cellSpace * i + halfCellSpace);
-            this.gc.fillText(text, cellSpace * 9 + halfCellSpace, cellSpace * i + halfCellSpace);
+            this.gc.setFill(Color.BLACK);
+            this.gc.fillText(text, halfCellSpace, this.cellSpace * i + halfCellSpace);
+            this.gc.fillText(text, this.cellSpace * 9 + halfCellSpace, this.cellSpace * i + halfCellSpace);
         }
 
         this.gc.fillText("A", cellSpace + halfCellSpace, halfCellSpace);
@@ -289,14 +317,14 @@ class GamePane extends Region {
             if (!piece.equals(doNotDrawPiece)){
                 this.gc.drawImage(blackPieceImage, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
             }
-            else{
-                this.gc.drawImage(blackPieceImage,  e.getX()-30, e.getY()-30, this.cellSpace, this.cellSpace);
-            }
+            //else{
+              //  this.gc.drawImage(blackPieceImage,  e.getX()-30, e.getY()-30, this.cellSpace, this.cellSpace);
+            //}
         } else if (!piece.equals(doNotDrawPiece)){
             this.gc.drawImage(whitePieceImage, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
         }
-        else{
-            this.gc.drawImage(whitePieceImage, e.getX()-30, e.getY()-30, this.cellSpace, this.cellSpace);
-        }
+        //else{
+          //  this.gc.drawImage(whitePieceImage, e.getX()-30, e.getY()-30, this.cellSpace, this.cellSpace);
+        //}
     }
 }
