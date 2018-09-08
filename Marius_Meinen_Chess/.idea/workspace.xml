@@ -2,24 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="507fc27a-a06b-4008-92d6-a831f777c976" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Marius_Meinen_Chess.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Marius_Meinen_Chess.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Bishop.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Bishop.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Board.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/ChessMainGui.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/ChessMainGui.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Game.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/GamePane.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/GamePane.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Move.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Move.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/King.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/King.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Knight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Knight.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Pawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Pawn.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/PieceBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/PieceBase.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Queen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Queen.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Referee.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Referee.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ChessMainGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChessMainGui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Rook.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marius_Meinen_Chess/Rook.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GamePane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GamePane.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -31,15 +27,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="ChessMainGui.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ChessMainGui.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-              <folding>
-                <element signature="method#CreateLayout#0;class#ChessMainGui#0" />
-              </folding>
+            <state relative-caret-position="718">
+              <caret line="68" column="49" selection-start-line="68" selection-start-column="49" selection-end-line="68" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -47,14 +40,30 @@
       <file leaf-file-name="GamePane.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GamePane.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-204">
-              <caret line="128" column="49" lean-forward="true" selection-start-line="128" selection-start-column="49" selection-end-line="128" selection-end-column="49" />
+            <state relative-caret-position="270">
+              <caret line="78" column="49" selection-start-line="78" selection-start-column="49" selection-end-line="78" selection-end-column="49" />
               <folding>
-                <element signature="e#1603#1604#0" expanded="true" />
-                <element signature="e#1648#1649#0" expanded="true" />
-                <element signature="method#drawSideText#0;class#GamePane#0" />
-                <element signature="method#loadChessImages#0;class#GamePane#0" />
+                <element signature="method#createTradePawnWindow#0;class#GamePane#0" />
+                <element signature="method#getDragPiece#0;class#GamePane#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Pawn.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Pawn.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PieceBase.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/PieceBase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="25" column="56" selection-start-line="25" selection-start-column="56" selection-end-line="25" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -62,7 +71,7 @@
       <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
+            <state relative-caret-position="833">
               <caret line="49" selection-start-line="49" selection-end-line="49" />
               <folding>
                 <element signature="e#2691#2692#0" expanded="true" />
@@ -209,45 +218,56 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1535960881114</updated>
-      <workItem from="1535960882707" duration="10184000" />
+      <workItem from="1535960882707" duration="10243000" />
+      <workItem from="1536045803363" duration="391000" />
+      <workItem from="1536317301066" duration="777000" />
+      <workItem from="1536432073243" duration="712000" />
     </task>
+    <task id="LOCAL-00001" summary="First Events">
+      <created>1535987317695</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1535987317695</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10184000" />
+    <option name="totallyTimeSpent" value="12123000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info id="Image Layers" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32933104" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info id="Capture Tool" />
-      <window_info id="Designer" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24962178" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Messages" order="7" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32933104" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.15780446" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="2" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26096824" />
+      <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="UI Designer" />
-      <window_info anchor="right" id="Theme Preview" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39965695" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,20 +276,16 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First Events" />
+    <option name="LAST_COMMIT_MESSAGE" value="First Events" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/GamePane.java</url>
-          <line>45</line>
-          <properties class="GamePane" method="redrawBoard">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GamePane.java</url>
-          <line>129</line>
+          <line>290</line>
           <properties />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
@@ -280,11 +296,91 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/ChessMainGui.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+        <state relative-caret-position="833">
+          <caret line="49" column="52" lean-forward="true" selection-start-line="49" selection-start-column="52" selection-end-line="49" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GamePane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1530">
+          <caret line="90" column="33" lean-forward="true" selection-start-line="90" selection-start-column="33" selection-end-line="90" selection-end-column="33" />
           <folding>
-            <element signature="method#CreateLayout#0;class#ChessMainGui#0" />
+            <element signature="method#createTradePawnWindow#0;class#GamePane#0" />
+            <element signature="method#getDragPiece#0;class#GamePane#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Pawn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="32" lean-forward="true" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/PieceBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="56" lean-forward="true" selection-start-line="25" selection-start-column="56" selection-end-line="25" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+          <folding>
+            <element signature="e#2691#2692#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessMainGui.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+          <folding>
+            <element signature="e#2691#2692#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GamePane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2210">
+          <caret line="130" column="63" lean-forward="true" selection-start-line="130" selection-start-column="63" selection-end-line="130" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessMainGui.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+          <folding>
+            <element signature="e#2691#2692#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GamePane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2176">
+          <caret line="128" column="49" lean-forward="true" selection-start-line="128" selection-start-column="49" selection-end-line="128" selection-end-column="49" />
         </state>
       </provider>
     </entry>
@@ -297,7 +393,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
+        <state relative-caret-position="833">
           <caret line="49" selection-start-line="49" selection-end-line="49" />
           <folding>
             <element signature="e#2691#2692#0" expanded="true" />
@@ -305,15 +401,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/PieceBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="25" column="56" selection-start-line="25" selection-start-column="56" selection-end-line="25" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Pawn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessMainGui.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="718">
+          <caret line="68" column="49" selection-start-line="68" selection-start-column="49" selection-end-line="68" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/GamePane.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-204">
-          <caret line="128" column="49" lean-forward="true" selection-start-line="128" selection-start-column="49" selection-end-line="128" selection-end-column="49" />
+        <state relative-caret-position="270">
+          <caret line="78" column="49" selection-start-line="78" selection-start-column="49" selection-end-line="78" selection-end-column="49" />
           <folding>
-            <element signature="e#1603#1604#0" expanded="true" />
-            <element signature="e#1648#1649#0" expanded="true" />
-            <element signature="method#drawSideText#0;class#GamePane#0" />
-            <element signature="method#loadChessImages#0;class#GamePane#0" />
+            <element signature="method#createTradePawnWindow#0;class#GamePane#0" />
+            <element signature="method#getDragPiece#0;class#GamePane#0" />
           </folding>
         </state>
       </provider>

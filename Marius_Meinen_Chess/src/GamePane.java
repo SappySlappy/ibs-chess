@@ -26,6 +26,7 @@ class GamePane extends Region {
     private Stage tradePawnPopUpWindow;
     private Canvas canvas;
     private Image dragImage;
+    private Image boardImage;
 
     private Image blackRook;
     private Image blackKnight;
@@ -64,7 +65,8 @@ class GamePane extends Region {
             }
             else {
                 redrawBoard(event);
-                //this.canvasImage = this.canvas.snapshot(new SnapshotParameters(),new WritableImage(this.cellSpace*10,this.cellSpace*10));
+                WritableImage canvasImage = this.canvas.snapshot(new SnapshotParameters(),new WritableImage(this.cellSpace*10,this.cellSpace*10));
+                this.boardImage = canvas.snapshot(new SnapshotParameters(), canvasImage);
                 this.fillAllPossibleFields(dragPiece,event);
             }
             event.consume();
@@ -73,7 +75,8 @@ class GamePane extends Region {
         canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
             if (this.dragPiece != null) {
                 clearCanvas();
-                this.redrawBoard(event);
+                //this.redrawBoard(event);
+                this.gc.drawImage(this.boardImage,0,0,600,600);
                 this.fillNotPossibleField(dragPiece,event);
                 this.drawDraggedPiece(event);
             }
