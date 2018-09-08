@@ -29,6 +29,7 @@ public class ChessMainGui extends Application {
     @Override
     public void start(Stage primaryStage) {      //trows Exception
         this.gameManager = new GameManager();
+        this.gameManager.setMainGui(this);
         this.CreateMenuBar();
         this.CreateToolBar();
         this.CreateLayout();

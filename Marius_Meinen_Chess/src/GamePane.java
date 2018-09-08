@@ -90,6 +90,10 @@ class GamePane extends Region {
         }
         this.dragPiece = null;
         updateBoard(null,null);
+
+        if (this.gameManager.getIsGameFinished(this.gameManager.getCurrentPlayer().getTeamNumber())){
+            this.gameManager.start();
+        }
     }
 
     private void createTradePawnWindow(){

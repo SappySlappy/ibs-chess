@@ -1,6 +1,9 @@
+import javafx.stage.Stage;
+
 public class GameManager {
 
         private Game game;
+        private ChessMainGui mainGui;
 
     public GameManager(){
         this.game = new Game(new Player(new Board(), "Player A", 2),
@@ -14,5 +17,17 @@ public class GameManager {
 
     public Player getCurrentPlayer(){
         return this.game.getCurrentPlayer();
+    }
+
+    public boolean getIsGameFinished(int teamNumber) {
+        return this.game.getReferee().isGameFinished(teamNumber);
+    }
+
+    public void setMainGui(ChessMainGui gui){
+        this.mainGui = gui;
+    }
+
+    public void start(){
+        this.mainGui.start(new Stage());
     }
 }
