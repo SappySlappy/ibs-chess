@@ -52,7 +52,7 @@ class GamePane extends Region {
         this.canvas = new Canvas(10*this.cellSpace, 10*this.cellSpace);
         this.gc = canvas.getGraphicsContext2D();
         this.getChildren().add(canvas);
-        this.drawBoard(null,null);
+        this.drawBoard(null);
         this.addCanvasHandler(canvas);
         this.createTradePawnWindow();
     }
@@ -64,10 +64,10 @@ class GamePane extends Region {
                 dragPiece = null;
             }
             else {
-                redrawBoard(event);
+                redrawBoard();
                 WritableImage canvasImage = this.canvas.snapshot(new SnapshotParameters(),new WritableImage(this.cellSpace*10,this.cellSpace*10));
                 this.boardImage = canvas.snapshot(new SnapshotParameters(), canvasImage);
-                this.fillAllPossibleFields(dragPiece,event);
+                this.fillAllPossibleFields(dragPiece);
             }
             event.consume();
         });
@@ -75,7 +75,6 @@ class GamePane extends Region {
         canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
             if (this.dragPiece != null) {
                 clearCanvas();
-                //this.redrawBoard(event);
                 this.gc.drawImage(this.boardImage,0,0,600,600);
                 this.fillNotPossibleField(dragPiece,event);
                 this.drawDraggedPiece(event);
@@ -89,7 +88,7 @@ class GamePane extends Region {
             }
             event.consume();
             dragPiece = null;
-            redrawBoard(null);
+            redrawBoard();
         });
     }
 
@@ -118,17 +117,18 @@ class GamePane extends Region {
         this.pieceForPawn = null;
         int col =(int) event.getX()/this.cellSpace-1;
         int row =(int) event.getY()/this.cellSpace-1;
-        if (this.dragPiece instanceof Pawn && (row == 0 || row == 7)){
+        Move move2 = new Move(this.dragPiece.getStartRow(),this.dragPiece.getStartCol(),row,col,this.isPawnTraded,this.pieceForPawn,this.dragPiece.getTeamNumber());
+        if (this.dragPiece instanceof Pawn && (row == 0 || row == 7) && this.dragPiece.possibleMoves.contains(move2)){
             this.tradePawnPopUpWindow.showAndWait();
         }
         Move move = new Move(this.dragPiece.getStartRow(),this.dragPiece.getStartCol(),row,col,this.isPawnTraded,this.pieceForPawn,this.dragPiece.getTeamNumber());
         if (this.dragPiece.possibleMoves.contains(move))
         {
             this.gameManager.getCurrentGame().executeMove(move);
-            updateBoard(null,null);
+            updateBoard(null);
         }
         this.dragPiece = null;
-        updateBoard(null,null);
+        updateBoard(null);
 
         if (this.gameManager.getIsGameFinished(this.gameManager.getCurrentPlayer().getTeamNumber())){
             this.gameManager.start();
@@ -179,9 +179,9 @@ class GamePane extends Region {
         tradePawnPopUpWindow.initStyle(StageStyle.UNDECORATED);
     }
 
-    private void drawBoard(PieceBase piece,MouseEvent e){
+    private void drawBoard(PieceBase piece){
         this.createGameFieldPane();
-        this.drawPieces(piece,e);
+        this.drawPieces(piece);
         this.drawSideText();
     }
 
@@ -194,16 +194,16 @@ class GamePane extends Region {
     }
 
 
-    private void redrawBoard(MouseEvent e){
+    private void redrawBoard(){
         if (this.dragPiece != null){
             clearCanvas();
-            this.updateBoard(dragPiece,e);
-            this.fillAllPossibleFields(dragPiece, e);
+            this.updateBoard(dragPiece);
+            this.fillAllPossibleFields(dragPiece);
             this.drawSideText();
         }
     }
 
-    private void fillAllPossibleFields(PieceBase dragPiece, MouseEvent event) {
+    private void fillAllPossibleFields(PieceBase dragPiece) {
         for(Move move : dragPiece.getListOfMoves(this.gameManager.getCurrentGame().getReferee().getBoard()))
         {
             this.gc.rect((this.cellSpace * move.getDestinationColumn() + this.cellSpace), (this.cellSpace * move.getDestinationRow() + this.cellSpace), this.cellSpace, this.cellSpace);
@@ -213,9 +213,9 @@ class GamePane extends Region {
     }
 
 
-    private void updateBoard(PieceBase clickedPawn, MouseEvent e)
+    private void updateBoard(PieceBase clickedPawn)
     {
-        this.drawBoard(clickedPawn,e);
+        this.drawBoard(clickedPawn);
     }
 
     private void clearCanvas(){
@@ -282,40 +282,40 @@ class GamePane extends Region {
 
     }
 
-    private void drawPieces(PieceBase doNotDrawPiece, MouseEvent e) {
+    private void drawPieces(PieceBase doNotDrawPiece) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 PieceBase piece = this.gameManager.getCurrentGame().getReferee().getBoard().getField(i, j);
                 if (piece != null) {
                     if (piece instanceof Queen) {
-                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackQueen,this.whiteQueen);
+                        this.drawImage(i,j,piece,doNotDrawPiece,this.blackQueen,this.whiteQueen);
                     }
 
                     if (piece instanceof King) {
-                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackKing,this.whiteKing);
+                        this.drawImage(i,j,piece,doNotDrawPiece,this.blackKing,this.whiteKing);
                     }
 
                     if (piece instanceof Bishop) {
-                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackBishop,this.whiteBishop);
+                        this.drawImage(i,j,piece,doNotDrawPiece,this.blackBishop,this.whiteBishop);
                     }
 
                     if (piece instanceof Knight) {
-                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackKnight,this.whiteKnight);
+                        this.drawImage(i,j,piece,doNotDrawPiece,this.blackKnight,this.whiteKnight);
                     }
 
                     if (piece instanceof Rook) {
-                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackRook,this.whiteRook);
+                        this.drawImage(i,j,piece,doNotDrawPiece,this.blackRook,this.whiteRook);
                     }
 
                     if (piece instanceof Pawn) {
-                        this.drawImage(i,j,piece,doNotDrawPiece,e,this.blackPawn,this.whitePawn);
+                        this.drawImage(i,j,piece,doNotDrawPiece,this.blackPawn,this.whitePawn);
                     }
                 }
             }
         }
     }
 
-    private void drawImage(int i, int j,PieceBase piece, PieceBase doNotDrawPiece,MouseEvent e, Image blackPieceImage, Image whitePieceImage){
+    private void drawImage(int i, int j,PieceBase piece, PieceBase doNotDrawPiece, Image blackPieceImage, Image whitePieceImage){
         if (piece.getTeamNumber() == 1) {
             if (!piece.equals(doNotDrawPiece)){
                 this.gc.drawImage(blackPieceImage, (this.cellSpace * j + this.cellSpace), (this.cellSpace * i + this.cellSpace), this.cellSpace, this.cellSpace);
