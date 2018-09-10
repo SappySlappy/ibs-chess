@@ -30,4 +30,8 @@ public class GameManager {
     public void start(){
         this.mainGui.start(new Stage());
     }
+
+    public void closeWindow(){
+        this.mainGui.closeWindow();
+    }
 }

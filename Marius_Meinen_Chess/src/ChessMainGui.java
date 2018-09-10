@@ -21,6 +21,7 @@ public class ChessMainGui extends Application {
     private ToolBar toolBar;
     private BorderPane root;
     private GameManager gameManager;
+    private Stage primaryStage;
 
     public static void main(String[] args) {     //throws Exception
         launch(args);
@@ -28,6 +29,7 @@ public class ChessMainGui extends Application {
 
     @Override
     public void start(Stage primaryStage) {      //trows Exception
+        this.primaryStage = primaryStage;
         this.gameManager = new GameManager();
         this.gameManager.setMainGui(this);
         this.CreateMenuBar();
@@ -38,6 +40,10 @@ public class ChessMainGui extends Application {
         primaryStage.setTitle("Chess");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public void closeWindow(){
+        this.primaryStage.close();
     }
 
 

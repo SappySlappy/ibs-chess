@@ -63,7 +63,7 @@ class GamePane extends Region {
             if (dragPiece != null && dragPiece.getTeamNumber() != gameManager.getCurrentGame().getCurrentPlayer().getTeamNumber()){
                 dragPiece = null;
             }
-            else {
+            else if(this.dragPiece != null){
                 redrawBoard();
                 WritableImage canvasImage = this.canvas.snapshot(new SnapshotParameters(),new WritableImage(this.cellSpace*10,this.cellSpace*10));
                 this.boardImage = canvas.snapshot(new SnapshotParameters(), canvasImage);
@@ -105,7 +105,7 @@ class GamePane extends Region {
         int col =(int) event.getX()/this.cellSpace-1;
         int row =(int) event.getY()/this.cellSpace-1;
 
-        if (!this.dragPiece.possibleMoves.contains(new Move(dragPiece.getStartRow(),dragPiece.getStartCol(),row,col,false,null,0)) && row < 8 && row >= 0&& col < 8 && col >= 0)
+        if (!this.dragPiece.possibleMoves.contains(new Move(dragPiece.getStartRow(),dragPiece.getStartCol(),row,col,false,null,0))&& !(row == this.dragPiece.row && col == this.dragPiece.col) && row < 8 && row >= 0&& col < 8 && col >= 0)
         {
             this.gc.setFill(new Color(1,0,0,0.5));
             this.gc.fillRect(this.cellSpace*col + this.cellSpace,this.cellSpace*row+this.cellSpace,this.cellSpace,this.cellSpace);
@@ -131,6 +131,7 @@ class GamePane extends Region {
         updateBoard(null);
 
         if (this.gameManager.getIsGameFinished(this.gameManager.getCurrentPlayer().getTeamNumber())){
+            this.gameManager.closeWindow();
             this.gameManager.start();
         }
     }
@@ -206,10 +207,14 @@ class GamePane extends Region {
     private void fillAllPossibleFields(PieceBase dragPiece) {
         for(Move move : dragPiece.getListOfMoves(this.gameManager.getCurrentGame().getReferee().getBoard()))
         {
-            this.gc.rect((this.cellSpace * move.getDestinationColumn() + this.cellSpace), (this.cellSpace * move.getDestinationRow() + this.cellSpace), this.cellSpace, this.cellSpace);
+           // this.gc.rect((this.cellSpace * move.getDestinationColumn() + this.cellSpace), (this.cellSpace * move.getDestinationRow() + this.cellSpace), this.cellSpace, this.cellSpace);
             this.gc.setFill(new Color(0.2,0.6,0.2,0.5));
             this.gc.fillRect((this.cellSpace * move.getDestinationColumn() + this.cellSpace), (this.cellSpace * move.getDestinationRow() + this.cellSpace), this.cellSpace, this.cellSpace);
         }
+
+        //this.gc.rect((this.cellSpace*this.dragPiece.col*this.cellSpace),(this.cellSpace*this.dragPiece.row+this.cellSpace),this.cellSpace,this.cellSpace);
+        this.gc.setFill(new Color(0,0,1,0.5));
+        this.gc.fillRect((this.cellSpace*this.dragPiece.col+this.cellSpace),(this.cellSpace*this.dragPiece.row+this.cellSpace),this.cellSpace,this.cellSpace);
     }
 
 
