@@ -30,7 +30,7 @@ class Referee {
         return false;
     }
 
-    boolean checkIfPiecesLeft(Player currentPlayer) {
+    boolean checkIfPiecesLeft(PlayerBase currentPlayer) {
         PieceBase piece;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {

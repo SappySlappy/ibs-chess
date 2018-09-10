@@ -15,7 +15,7 @@ class GameManager {
         return this.game;
     }
 
-    Player getCurrentPlayer(){
+    PlayerBase getCurrentPlayer(){
         return this.game.getCurrentPlayer();
     }
 

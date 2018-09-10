@@ -1,17 +1,25 @@
-class Game {
+class Game extends Thread{
 
-    private Player playerA;
-    private Player playerB;
+    private PlayerBase playerA;
+    private PlayerBase playerB;
     private Referee referee;
-    private Player currentPlayer;
+    private PlayerBase currentPlayer;
     private boolean isGameFinished;
 
-    Game(Player playerA, Player playerB, Referee referee) {
+    Game(PlayerBase playerA, PlayerBase playerB, Referee referee) {
         this.playerA = playerA;
         this.playerB = playerB;
         this.referee = referee;
         this.isGameFinished = false;
         this.currentPlayer = this.playerA;
+    }
+
+    public void run(){
+        while(!this.isGameFinished){
+            this.currentPlayer.executeMove(null);
+            this.currentPlayer.makeAMove();
+
+        }
     }
 
     void executeMove(Move move){
@@ -47,7 +55,7 @@ class Game {
         this.currentPlayer = this.currentPlayer == this.playerA ? this.playerB : this.playerA;
     }
 
-    Player getCurrentPlayer() {
+    PlayerBase getCurrentPlayer() {
         return this.currentPlayer;
     }
 }
