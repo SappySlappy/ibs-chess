@@ -1,37 +1,37 @@
 import javafx.stage.Stage;
 
-public class GameManager {
+class GameManager {
 
         private Game game;
         private ChessMainGui mainGui;
 
-    public GameManager(){
+    GameManager(){
         this.game = new Game(new Player(new Board(), "Player A", 2),
                 new Player(new Board(), "Player B", 1),
                 new Referee(new Board()));
     }
 
-    public Game getCurrentGame(){
+    Game getCurrentGame(){
         return this.game;
     }
 
-    public Player getCurrentPlayer(){
+    Player getCurrentPlayer(){
         return this.game.getCurrentPlayer();
     }
 
-    public boolean getIsGameFinished(int teamNumber) {
+    boolean getIsGameFinished(int teamNumber) {
         return this.game.getReferee().isGameFinished(teamNumber);
     }
 
-    public void setMainGui(ChessMainGui gui){
+    void setMainGui(ChessMainGui gui){
         this.mainGui = gui;
     }
 
-    public void start(){
+    void start(){
         this.mainGui.start(new Stage());
     }
 
-    public void closeWindow(){
+    void closeWindow(){
         this.mainGui.closeWindow();
     }
 }

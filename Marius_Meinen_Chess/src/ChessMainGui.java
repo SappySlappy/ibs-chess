@@ -42,7 +42,7 @@ public class ChessMainGui extends Application {
         primaryStage.show();
     }
 
-    public void closeWindow(){
+    void closeWindow(){
         this.primaryStage.close();
     }
 

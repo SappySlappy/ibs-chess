@@ -74,7 +74,7 @@ class Referee {
         return this.board;
     }
 
-    public boolean isGameFinished(int teamNumber) {
+    boolean isGameFinished(int teamNumber) {
         for (int i = 0;i<8;i++){
             for (int j = 0;j<8;j++){
                 PieceBase piece = this.board.getField(i,j);

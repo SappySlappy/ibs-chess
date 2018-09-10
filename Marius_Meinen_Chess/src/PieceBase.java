@@ -1,12 +1,11 @@
 import java.util.ArrayList;
 
 public abstract class PieceBase {
-
+    ArrayList<Move> possibleMoves;
     private int teamNumber;
     private String name;
-    protected ArrayList<Move> possibleMoves;
-    int row;
-    int col;
+    protected int row;
+    protected int col;
 
     public PieceBase(int teamNumber, String name, int row, int col) {
         this.teamNumber = teamNumber;
@@ -23,7 +22,7 @@ public abstract class PieceBase {
         return this.name;
     }
 
-    public ArrayList<Move> getListOfMoves(Board board) {
+    ArrayList<Move> getListOfMoves(Board board) {
         this.createList(board);
         return this.possibleMoves;
     }
@@ -46,11 +45,11 @@ public abstract class PieceBase {
         this.col = column;
     }
 
-    public int getStartRow(){
+    int getStartRow(){
         return this.row;
     }
 
-    public int getStartCol(){
+    int getStartCol(){
         return this.col;
     }
 

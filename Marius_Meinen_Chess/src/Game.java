@@ -14,14 +14,14 @@ class Game {
         this.currentPlayer = this.playerA;
     }
 
-    public void executeMove(Move move){
+    void executeMove(Move move){
         this.getCurrentPlayer().executeMove(move);
         this.referee.executeMove(move);
         this.switchPlayer();
         this.getCurrentPlayer().executeMove(move);
     }
 
-    public Referee getReferee(){
+    Referee getReferee(){
         return this.referee;
     }
 
@@ -47,7 +47,7 @@ class Game {
         this.currentPlayer = this.currentPlayer == this.playerA ? this.playerB : this.playerA;
     }
 
-    public Player getCurrentPlayer() {
+    Player getCurrentPlayer() {
         return this.currentPlayer;
     }
 }
