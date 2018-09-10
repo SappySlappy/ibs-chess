@@ -54,37 +54,6 @@ public class Board {
         this.board[row][col] = piece;
     }
 
-    void printBoard() {
-        System.out.println();
-        System.out.println();
-
-        for (int i = 0; i < 8; i++) {
-            System.out.print("  " + i + "  ");
-        }
-        System.out.println();
-
-        for (int i = 0; i < 8; i++) {
-
-            for (int k = 0; k < 8; k++) {
-                System.out.print("-----");
-            }
-
-            System.out.println();
-            System.out.print(i + " ");
-            for (int j = 0; j < 8; j++) {
-                if (board[i][j] != null) {
-                    System.out.print(this.board[i][j].getPieceName());
-                } else {
-                    System.out.print("  ");
-                }
-                System.out.print(" | ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();
-    }
-
     private void initializeBlackPieces() {
         board[0][0] = new Rook(1, "ST", 0, 0);
         board[0][1] = new Knight(1, "SS", 0, 1);

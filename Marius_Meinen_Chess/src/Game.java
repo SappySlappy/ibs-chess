@@ -33,24 +33,6 @@ class Game extends Thread{
         return this.referee;
     }
 
-    void startGame() {
-
-        Move currentMove = this.currentPlayer.makeAMove();
-        this.isGameFinished = this.referee.checkNewMove(currentMove);
-
-        while (!this.isGameFinished) {
-            this.switchPlayer();
-            this.currentPlayer.executeMove(currentMove);
-            if(this.referee.checkIfPiecesLeft(this.currentPlayer)){
-                break;
-            }
-            currentMove = this.currentPlayer.makeAMove();
-            this.isGameFinished = this.referee.checkNewMove(currentMove);
-        }
-
-        System.out.print("Player " + this.currentPlayer.getName() + "lost.");
-    }
-
     private void switchPlayer(){
         this.currentPlayer = this.currentPlayer == this.playerA ? this.playerB : this.playerA;
     }
