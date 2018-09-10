@@ -285,11 +285,11 @@ class GamePane extends Region {
         int col = (int) event.getX() / this.cellSpace - 1;
         int row = (int) event.getY() / this.cellSpace - 1;
         Move move2 = new Move(this.dragPiece.getStartRow(), this.dragPiece.getStartCol(), row, col, this.isPawnTraded, this.pieceForPawn, this.dragPiece.getTeamNumber());
-        if (this.dragPiece instanceof Pawn && (row == 0 || row == 7) && this.dragPiece.possibleMoves.contains(move2)) {
+        if (this.dragPiece instanceof Pawn && (row == 0 || row == 7) && this.dragPiece.getPossibleMoves().contains(move2)) {
             this.tradePawnPopUpWindow.showAndWait();
         }
         Move move = new Move(this.dragPiece.getStartRow(), this.dragPiece.getStartCol(), row, col, this.isPawnTraded, this.pieceForPawn, this.dragPiece.getTeamNumber());
-        if (this.dragPiece.possibleMoves.contains(move)) {
+        if (this.dragPiece.getPossibleMoves().contains(move)) {
             this.gameManager.getCurrentGame().executeMove(move);
             this.drawBoard(null);
         }
@@ -317,7 +317,7 @@ class GamePane extends Region {
         int col = (int) event.getX() / this.cellSpace - 1;
         int row = (int) event.getY() / this.cellSpace - 1;
 
-        if (!this.dragPiece.possibleMoves.contains(new Move(dragPiece.getStartRow(), dragPiece.getStartCol(), row, col, false, null, 0)) && !(row == this.dragPiece.getStartRow() && col == this.dragPiece.getStartCol()) && row < 8 && row >= 0 && col < 8 && col >= 0) {
+        if (!this.dragPiece.getPossibleMoves().contains(new Move(dragPiece.getStartRow(), dragPiece.getStartCol(), row, col, false, null, 0)) && !(row == this.dragPiece.getStartRow() && col == this.dragPiece.getStartCol()) && row < 8 && row >= 0 && col < 8 && col >= 0) {
             this.gc.setFill(new Color(1, 0, 0, 0.5));
             this.gc.fillRect(this.cellSpace * col + this.cellSpace, this.cellSpace * row + this.cellSpace, this.cellSpace, this.cellSpace);
         }

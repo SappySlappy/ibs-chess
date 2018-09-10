@@ -16,8 +16,8 @@ class Game extends Thread{
 
     public void run(){
         while(!this.isGameFinished){
-            this.currentPlayer.executeMove(null);
-            this.currentPlayer.makeAMove();
+            Move move = this.currentPlayer.makeAMove();
+            this.currentPlayer.executeMove(move);
 
         }
     }

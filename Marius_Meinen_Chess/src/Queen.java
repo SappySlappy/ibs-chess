@@ -12,7 +12,7 @@ public class Queen extends PieceBase {
             return false;
         }
 
-        this.possibleMoves = new ArrayList<>();
+        this.setPossibleMoves(new ArrayList<>());
         PieceBase piece = new Bishop(this.getTeamNumber(), "", this.row, this.col);
         if (!piece.isMoveLegal(board, move)) {
             piece = new Rook(this.getTeamNumber(), "", this.row, this.col);
@@ -24,11 +24,11 @@ public class Queen extends PieceBase {
 
     @Override
     protected void createList(Board board){
-        this.possibleMoves = new ArrayList<>();
+        this.setPossibleMoves(new ArrayList<>());
         PieceBase piece = new Bishop(this.getTeamNumber(), "", this.row, this.col);
-        this.possibleMoves = piece.getListOfMoves(board);
+        this.setPossibleMoves(piece.getListOfMoves(board));
         piece = new Rook(this.getTeamNumber(), "", this.row, this.col);
-        this.possibleMoves.addAll(piece.getListOfMoves(board));
+        this.getPossibleMoves().addAll(piece.getListOfMoves(board));
     }
 
 }

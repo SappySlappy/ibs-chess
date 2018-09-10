@@ -12,13 +12,13 @@ public class Pawn extends PieceBase {
             return false;
         }
 
-        this.possibleMoves = new ArrayList<>();
+        this.setPossibleMoves(new ArrayList<>());
         return this.checkBasicMovement(board, move);
     }
 
     @Override
     protected void createList(Board board){
-        this.possibleMoves = new ArrayList<>();
+        this.setPossibleMoves(new ArrayList<>());
         if (this.getTeamNumber() == 1) {
             this.createListForBlackPawn(board);
         }
@@ -32,7 +32,7 @@ public class Pawn extends PieceBase {
         if (pawn.getTeamNumber() == 1) {
             if (this.checkForBlackPawns(move)) {
                 this.createListForBlackPawn(board);
-                for (Move moveFromList : this.possibleMoves) {
+                for (Move moveFromList : this.getPossibleMoves()) {
                     if (moveFromList.equals(move)) {
                         return true;
                     }
@@ -42,7 +42,7 @@ public class Pawn extends PieceBase {
         } else {
             if (this.checkForWhitePawn(move)) {
                 this.createListForWhitePawn(board);
-                for (Move moveFromList : this.possibleMoves) {
+                for (Move moveFromList : this.getPossibleMoves()) {
                     if (moveFromList.equals(move)) {
                         return true;
                     }
@@ -55,23 +55,23 @@ public class Pawn extends PieceBase {
     private void createListForBlackPawn(Board board) {
         if (this.row == 1) {
             if (board.getField(row + 1, col) == null && board.getField(row + 2, col) == null) {
-                this.possibleMoves.add(new Move(this.row, this.col, this.row + 2, this.col, false, null, 0));
+                this.getPossibleMoves().add(new Move(this.row, this.col, this.row + 2, this.col, false, null, 0));
             }
         }
 
         if (this.row + 1 < 8) {
             if (board.getField(this.row + 1, this.col) == null) {
-                this.possibleMoves.add(new Move(this.row, this.col, this.row + 1, this.col, false, null, 0));
+                this.getPossibleMoves().add(new Move(this.row, this.col, this.row + 1, this.col, false, null, 0));
             }
 
             if (col + 1 < 8 && board.getField(this.row + 1, this.col + 1) != null
                     && board.getField(this.row + 1, this.col + 1).getTeamNumber() != this.getTeamNumber()) {
-                this.possibleMoves.add(new Move(this.row, this.col, this.row + 1, this.col + 1, false, null, 0));
+                this.getPossibleMoves().add(new Move(this.row, this.col, this.row + 1, this.col + 1, false, null, 0));
             }
 
             if (col - 1 >= 0 && board.getField(this.row + 1, this.col - 1) != null
                     && board.getField(this.row + 1, this.col - 1).getTeamNumber() != this.getTeamNumber()) {
-                this.possibleMoves.add(new Move(this.row, this.col, this.row + 1, this.col - 1, false, null, 0));
+                this.getPossibleMoves().add(new Move(this.row, this.col, this.row + 1, this.col - 1, false, null, 0));
             }
         }
     }
@@ -79,23 +79,23 @@ public class Pawn extends PieceBase {
     private void createListForWhitePawn(Board board) {
         if (this.row == 6) {
             if (board.getField(row - 1, col) == null && board.getField(row - 2, col) == null) {
-                this.possibleMoves.add(new Move(this.row, this.col, this.row - 2, this.col, false, null, 0));
+                this.getPossibleMoves().add(new Move(this.row, this.col, this.row - 2, this.col, false, null, 0));
             }
         }
 
         if (this.row - 1 >= 0) {
             if (board.getField(this.row - 1, this.col) == null) {
-                this.possibleMoves.add(new Move(this.row, this.col, this.row - 1, this.col, false, null, 0));
+                this.getPossibleMoves().add(new Move(this.row, this.col, this.row - 1, this.col, false, null, 0));
             }
 
             if (col + 1 < 8 && board.getField(this.row - 1, this.col + 1) != null
                     && board.getField(this.row - 1, this.col + 1).getTeamNumber() != this.getTeamNumber()) {
-                this.possibleMoves.add(new Move(this.row, this.col, this.row - 1, this.col + 1, false, null, 0));
+                this.getPossibleMoves().add(new Move(this.row, this.col, this.row - 1, this.col + 1, false, null, 0));
             }
 
             if (col - 1 >= 0 && board.getField(this.row - 1, this.col - 1) != null
                     && board.getField(this.row - 1, this.col - 1).getTeamNumber() != this.getTeamNumber()) {
-                this.possibleMoves.add(new Move(this.row, this.col, this.row - 1, this.col - 1, false, null, 0));
+                this.getPossibleMoves().add(new Move(this.row, this.col, this.row - 1, this.col - 1, false, null, 0));
             }
         }
     }

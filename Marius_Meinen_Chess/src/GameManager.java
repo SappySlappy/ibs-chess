@@ -9,6 +9,7 @@ class GameManager {
         this.game = new Game(new Player(new Board(), "Player A", 2),
                 new Player(new Board(), "Player B", 1),
                 new Referee(new Board()));
+        this.game.start();
     }
 
     Game getCurrentGame(){

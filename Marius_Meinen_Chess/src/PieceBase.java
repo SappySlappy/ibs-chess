@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public abstract class PieceBase {
-    ArrayList<Move> possibleMoves;
+    private ArrayList<Move> possibleMoves;
     private int teamNumber;
     private String name;
     protected int row;
@@ -51,6 +51,14 @@ public abstract class PieceBase {
 
     int getStartCol(){
         return this.col;
+    }
+
+    void setPossibleMoves(ArrayList<Move> value){
+        this.possibleMoves = value;
+    }
+
+    ArrayList<Move> getPossibleMoves(){
+        return this.possibleMoves;
     }
 
     protected abstract void createList(Board board);

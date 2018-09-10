@@ -12,14 +12,14 @@ public class Bishop extends PieceBase {
             return false;
         }
 
-        this.possibleMoves = new ArrayList<>();
+        this.setPossibleMoves(new ArrayList<>());
         this.createList(board);
-        return this.possibleMoves.contains(move);
+        return this.getPossibleMoves().contains(move);
     }
 
     @Override
     protected void createList(Board board) {
-        this.possibleMoves = new ArrayList<>();
+        this.setPossibleMoves(new ArrayList<>());
         int destinationCol = this.col + 1;
         checkMovementToRightDown(board, destinationCol, this.row + 1);
 
@@ -39,9 +39,9 @@ public class Bishop extends PieceBase {
             for (int i = startRow; i < 8; i++) {
                 if (destinationCol < 8) {
                     if (board.getField(i, destinationCol) == null) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
+                        this.getPossibleMoves().add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                     } else if (board.getField(i, destinationCol) != null && board.getField(i, destinationCol).getTeamNumber() != this.getTeamNumber()) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
+                        this.getPossibleMoves().add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                         break;
                     } else {
                         break;
@@ -57,9 +57,9 @@ public class Bishop extends PieceBase {
             for (int i = startRow; i >= 0; i--) {
                 if (destinationCol < 8) {
                     if (board.getField(i, destinationCol) == null) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
+                        this.getPossibleMoves().add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                     } else if (board.getField(i, destinationCol) != null && board.getField(i, destinationCol).getTeamNumber() != this.getTeamNumber()) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
+                        this.getPossibleMoves().add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                         break;
                     } else {
                         break;
@@ -75,9 +75,9 @@ public class Bishop extends PieceBase {
             for (int i = startRow; i >= 0; i--) {
                 if (destinationCol >= 0) {
                     if (board.getField(i, destinationCol) == null) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
+                        this.getPossibleMoves().add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                     } else if (board.getField(i, destinationCol) != null && board.getField(i, destinationCol).getTeamNumber() != this.getTeamNumber()) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
+                        this.getPossibleMoves().add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                         break;
                     } else {
                         break;
@@ -93,9 +93,9 @@ public class Bishop extends PieceBase {
             for (int i = startRow; i < 8; i++) {
                 if (destinationCol >= 0) {
                     if (board.getField(i, destinationCol) == null) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
+                        this.getPossibleMoves().add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                     } else if (board.getField(i, destinationCol) != null && board.getField(i, destinationCol).getTeamNumber() != this.getTeamNumber()) {
-                        this.possibleMoves.add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
+                        this.getPossibleMoves().add(new Move(this.row, this.col, i, destinationCol, false, null, 0));
                         break;
                     } else {
                         break;
