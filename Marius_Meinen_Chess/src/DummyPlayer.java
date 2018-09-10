@@ -10,17 +10,21 @@ public class DummyPlayer extends PlayerBase{
 
     @Override
     Move makeAMove() {
+        this.allPossibleMoves = new ArrayList<>();
         for (int i = 0;i<8;i++){
             for(int j = 0;j<8;j++){
                 PieceBase piece = this.board.getField(i,j);
                 if (piece != null){
-                    piece.getListOfMoves(board);
-
-                    return null;
+                    this.allPossibleMoves.addAll(piece.getListOfMoves(board));
                 }
             }
         }
-        return null;
+        if (allPossibleMoves.size() != 0) {
+            return allPossibleMoves.get((int) (Math.random() * this.allPossibleMoves.size()));
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
