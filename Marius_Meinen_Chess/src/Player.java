@@ -7,18 +7,7 @@ class Player extends PlayerBase{
     }
 
     Move makeAMove() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(name);
-        System.out.print("From row: ");
-        int startRow = scanner.nextInt();
-        System.out.print("From column: ");
-        int startColumn = scanner.nextInt();
-        System.out.print("To row: ");
-        int destinationRow = scanner.nextInt();
-        System.out.print("To column: ");
-        int destinationColumn = scanner.nextInt();
-
-        return this.buildMove(startRow, startColumn, destinationRow, destinationColumn);
+        return null;
     }
 
     @Override
@@ -32,22 +21,22 @@ class Player extends PlayerBase{
             if (pawn != null && pawn.getPieceName().endsWith("P")) {
                 if (pawn.getTeamNumber() == 1 && destinationRow == 7) {
                     tradePiece = this.tradePawn(destinationRow, destinationColumn);
-                    move = new Move(startRow, startColumn, destinationRow, destinationColumn, true, tradePiece, teamNumber);
+                    move = new Move(startRow, startColumn, destinationRow, destinationColumn, true, tradePiece, this.teamNumber);
                     this.executeMove(move);
                 } else if (pawn.getTeamNumber() == 2 && destinationRow == 0) {
                     tradePiece = this.tradePawn(destinationRow, destinationColumn);
-                    move = new Move(startRow, startColumn, destinationRow, destinationColumn, true, tradePiece, teamNumber);
+                    move = new Move(startRow, startColumn, destinationRow, destinationColumn, true, tradePiece, this.teamNumber);
                     this.executeMove(move);
                 } else {
-                    move = new Move(startRow, startColumn, destinationRow, destinationColumn, false, null, teamNumber);
+                    move = new Move(startRow, startColumn, destinationRow, destinationColumn, false, null, this.teamNumber);
                     this.executeMove(move);
                 }
             } else {
-                move = new Move(startRow, startColumn, destinationRow, destinationColumn, false, null, teamNumber);
+                move = new Move(startRow, startColumn, destinationRow, destinationColumn, false, null, this.teamNumber);
                 this.executeMove(move);
             }
         } else {
-            move = new Move(startRow, startColumn, destinationRow, destinationColumn, false, null, teamNumber);
+            move = new Move(startRow, startColumn, destinationRow, destinationColumn, false, null, this.teamNumber);
         }
 
         return move;
