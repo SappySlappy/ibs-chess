@@ -18,7 +18,8 @@ class Game extends Thread{
         while(!this.isGameFinished){
             Move move = this.currentPlayer.makeAMove();
             this.currentPlayer.executeMove(move);
-
+            this.referee.executeMove(move);
+            this.switchPlayer();
         }
     }
 
