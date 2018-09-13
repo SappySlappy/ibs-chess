@@ -16,7 +16,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-class GamePane extends Region {
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+class GamePane extends Region implements PropertyChangeListener {
     private GraphicsContext gc;
     private int cellSpace;
     private PieceBase dragPiece;
@@ -44,6 +47,9 @@ class GamePane extends Region {
 
     GamePane(GameManager gameManager) {
         this.gameManager = gameManager;
+        this.gameManager.getCurrentGame().movePropertyProperty().addListener((observable, oldValue, newValue) -> {
+
+        });
         this.cellSpace = 60;
         this.setPrefSize(cellSpace * 10, cellSpace * 10);
         this.setMinSize(cellSpace * 10, cellSpace * 10);
@@ -320,6 +326,13 @@ class GamePane extends Region {
         if (!this.dragPiece.getPossibleMoves().contains(new Move(dragPiece.getStartRow(), dragPiece.getStartCol(), row, col, false, null, 0)) && !(row == this.dragPiece.getStartRow() && col == this.dragPiece.getStartCol()) && row < 8 && row >= 0 && col < 8 && col >= 0) {
             this.gc.setFill(new Color(1, 0, 0, 0.5));
             this.gc.fillRect(this.cellSpace * col + this.cellSpace, this.cellSpace * row + this.cellSpace, this.cellSpace, this.cellSpace);
+        }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("refBoard".equals(evt.getPropertyName())){
+            this.redrawBoard();
         }
     }
 }

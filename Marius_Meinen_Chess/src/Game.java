@@ -1,3 +1,6 @@
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
 class Game extends Thread{
 
     private PlayerBase playerA;
@@ -14,13 +17,32 @@ class Game extends Thread{
         this.currentPlayer = this.playerA;
     }
 
+
+    public Move getMoveProperty() {
+        return moveProperty.get();
+    }
+
+    public ObjectProperty<Move> movePropertyProperty() {
+        return moveProperty;
+    }
+
+    public void setMoveProperty(Move moveProperty) {
+        this.moveProperty.set(moveProperty);
+    }
+
     public void run(){
         while(!this.isGameFinished){
             Move move = this.currentPlayer.makeAMove();
-            this.currentPlayer.executeMove(move);
-
+            this.executeMove(move);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+    private ObjectProperty<Move> moveProperty = new SimpleObjectProperty<>();
 
     void executeMove(Move move){
         this.getCurrentPlayer().executeMove(move);
@@ -58,5 +80,6 @@ class Game extends Thread{
     PlayerBase getCurrentPlayer() {
         return this.currentPlayer;
     }
+
 }
 

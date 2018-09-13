@@ -1,10 +1,18 @@
-class Referee {
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+class Referee  {
 
     private Board board;
+    private PropertyChangeSupport propertyChangeSupport;
 
     Referee(Board board) {
         this.board = board;
-        this.board.printBoard();
+        propertyChangeSupport = new PropertyChangeSupport(this);
+    }
+
+    void addPropertyChangeListener(PropertyChangeListener listener){
+        this.propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
     boolean checkNewMove(Move move) {
@@ -68,6 +76,7 @@ class Referee {
                     break;
             }
         }
+        this.propertyChangeSupport.firePropertyChange("refBoard",1,1);
     }
 
     public Board getBoard() {

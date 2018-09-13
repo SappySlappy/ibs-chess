@@ -40,6 +40,7 @@ public class ChessMainGui extends Application {
         primaryStage.setTitle("Chess");
         primaryStage.setScene(scene);
         primaryStage.show();
+        this.gameManager.getCurrentGame().run();
     }
 
     void closeWindow(){
