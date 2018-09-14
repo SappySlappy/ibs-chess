@@ -47,9 +47,6 @@ class GamePane extends Region implements PropertyChangeListener {
 
     GamePane(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.gameManager.getCurrentGame().movePropertyProperty().addListener((observable, oldValue, newValue) -> {
-
-        });
         this.cellSpace = 60;
         this.setPrefSize(cellSpace * 10, cellSpace * 10);
         this.setMinSize(cellSpace * 10, cellSpace * 10);
@@ -332,7 +329,8 @@ class GamePane extends Region implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("refBoard".equals(evt.getPropertyName())){
-            this.redrawBoard();
+            System.out.println("property changed");
+            //this.redrawBoard();
         }
     }
 }

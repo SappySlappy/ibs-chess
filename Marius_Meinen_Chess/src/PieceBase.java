@@ -57,7 +57,7 @@ public abstract class PieceBase {
         this.possibleMoves = value;
     }
 
-    ArrayList<Move> getPossibleMoves(){
+    public ArrayList<Move> getPossibleMoves(){
         return this.possibleMoves;
     }
 
