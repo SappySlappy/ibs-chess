@@ -8,7 +8,9 @@ class Game extends Thread{
     private Referee referee;
     private PlayerBase currentPlayer;
     private boolean isGameFinished;
+    private boolean isPaused;
     private PropertyChangeSupport propertyChangeSupport;
+    private int moveCounter;
 
     Game(PlayerBase playerA, PlayerBase playerB, Referee referee) {
         this.playerA = playerA;
@@ -25,15 +27,36 @@ class Game extends Thread{
     }
 
     public void run(){
+        moveCounter = 0;
+        this.isPaused = false;
         while(!this.isGameFinished){
-            Move move = this.currentPlayer.makeAMove();
-            this.propertyChangeSupport.firePropertyChange("newMove",null,move);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            synchronized (this) {
+                while (isPaused) {
+                    try {
+                        wait();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                Move move = this.currentPlayer.makeAMove();
+                this.propertyChangeSupport.firePropertyChange("newMove",null,move);
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            System.out.println(moveCounter++);
         }
+    }
+
+    void pauseThread(){
+        this.isPaused = true;
+    }
+
+    void resumeThread(){
+        this.isPaused = false;
+        notify();
     }
 
     void executeMove(Move move){

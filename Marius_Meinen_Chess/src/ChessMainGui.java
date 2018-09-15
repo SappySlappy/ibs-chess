@@ -22,6 +22,13 @@ public class ChessMainGui extends Application {
     private BorderPane root;
     private GameManager gameManager;
     private Stage primaryStage;
+    private Thread gameThread;
+
+    private Button StartButton;
+    private Button StopButton;
+
+    private MenuItem startMenuItem;
+    private MenuItem stopMenuItem;
 
     public static void main(String[] args) {     //throws Exception
         launch(args);
@@ -56,8 +63,8 @@ public class ChessMainGui extends Application {
 
         MenuItem newMenuItem = new MenuItem("_New");
         MenuItem printMenuItem = new MenuItem("_Print");
-        MenuItem startMenuItem = new MenuItem("_Start");
-        MenuItem stopMenuItem = new MenuItem("_Stop");
+        this.startMenuItem = new MenuItem("_Start");
+        this.stopMenuItem = new MenuItem("_Stop");
         MenuItem closeMenuItem = new MenuItem("_Close");
         RadioMenuItem isPlayerAHumanMenuItem = new RadioMenuItem("_Human");
         RadioMenuItem isPlayerBHumanMenuItem = new RadioMenuItem("_Human");
@@ -78,8 +85,12 @@ public class ChessMainGui extends Application {
         playerBMenu.getItems().add(isPlayerBHumanMenuItem);
         gameMenu.getItems().addAll(newMenuItem, printMenuItem, new SeparatorMenuItem(), startMenuItem, stopMenuItem, new SeparatorMenuItem(), closeMenuItem);
 
+        stopMenuItem.setDisable(true);
+
         newMenuItem.addEventHandler(ActionEvent.ACTION, e -> this.start(new Stage()));
         closeMenuItem.addEventHandler(ActionEvent.ACTION, e -> Platform.exit());
+        startMenuItem.addEventHandler(ActionEvent.ACTION, event -> this.startDummyPlayer());
+        stopMenuItem.addEventHandler(ActionEvent.ACTION, event -> this.stopDummyPlayer());
 
         this.menuBar.getMenus().addAll(gameMenu, playerAMenu, playerBMenu);
     }
@@ -89,8 +100,8 @@ public class ChessMainGui extends Application {
 
         Button OpenButton = new Button();
         Button SaveButton = new Button();
-        Button StartButton = new Button();
-        Button StopButton = new Button();
+        this.StartButton = new Button();
+        this.StopButton = new Button();
 
         StopButton.setDisable(true);
 
@@ -104,19 +115,35 @@ public class ChessMainGui extends Application {
         StartButton.setTooltip(new Tooltip("Starts a new game."));
         StopButton.setTooltip(new Tooltip("Stops the current game."));
 
-        StartButton.addEventHandler(ActionEvent.ACTION, event -> {
-            StartButton.setDisable(true);
-            StopButton.setDisable(false);
-            this.gameManager.getCurrentGame().start();
-        });
-
-        StopButton.addEventHandler(ActionEvent.ACTION, event -> {
-            StopButton.setDisable(true);
-            StartButton.setDisable(false);
-            this.gameManager.getCurrentGame().interrupt();
-        });
+        StartButton.addEventHandler(ActionEvent.ACTION, event -> this.startDummyPlayer());
+        StopButton.addEventHandler(ActionEvent.ACTION, event -> this.stopDummyPlayer());
 
         this.toolBar.getItems().addAll(OpenButton, SaveButton, StartButton, StopButton);
+    }
+
+    private void startDummyPlayer(){
+        StartButton.setDisable(true);
+        startMenuItem.setDisable(true);
+        StopButton.setDisable(false);
+        stopMenuItem.setDisable(false);
+        if (gameThread == null){
+            this.gameThread = this.gameManager.getCurrentGame();
+            this.gameThread.setDaemon(true);
+            gameThread.start();
+        }
+        synchronized (gameThread){
+            this.gameManager.getCurrentGame().resumeThread();
+        }
+    }
+
+    private void stopDummyPlayer(){
+        StopButton.setDisable(true);
+        stopMenuItem.setDisable(true);
+        StartButton.setDisable(false);
+        startMenuItem.setDisable(false);
+        synchronized (gameThread){
+            this.gameManager.getCurrentGame().pauseThread();
+        }
     }
 
     private void CreateLayout() {
