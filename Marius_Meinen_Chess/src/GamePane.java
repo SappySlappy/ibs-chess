@@ -1,3 +1,5 @@
+import javafx.animation.PathTransition;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
@@ -7,14 +9,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -27,6 +34,14 @@ class GamePane extends Region implements PropertyChangeListener {
     private boolean isPawnTraded;
     private String pieceForPawn;
     private Stage tradePawnPopUpWindow;
+    private Referee referee;
+    private WritableImage canvasImage;
+    private WritableImage writableImage;
+    private ImageView transitionView;
+
+    private int eventCol;
+    private int eventRow;
+
     private Canvas canvas;
     private Image dragImage;
     private Image boardImage;
@@ -55,9 +70,56 @@ class GamePane extends Region implements PropertyChangeListener {
         this.canvas = new Canvas(10 * this.cellSpace, 10 * this.cellSpace);
         this.gc = canvas.getGraphicsContext2D();
         this.getChildren().add(canvas);
+        this.referee = this.gameManager.getCurrentGame().getReferee();
         this.drawBoard(null);
         this.addCanvasHandler(canvas);
         this.createTradePawnWindow();
+        this.gameManager.getCurrentGame().addPropertyChangeListener(this);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("newMove".equals(evt.getPropertyName())){
+            Platform.runLater(() -> drawDummyMove((Move) evt.getNewValue()));
+        }
+    }
+
+    private void drawDummyMove(Move move) {
+        this.getChildren().remove(transitionView);
+        this.dragPiece = this.referee.getBoard().getField(move.getStartRow(),move.getStartColumn());
+        this.drawBoard(dragPiece);
+        this.writableImage = new WritableImage(this.cellSpace * 10, this.cellSpace * 10);
+        this.canvasImage = this.canvas.snapshot(new SnapshotParameters(), this.writableImage);
+        this.boardImage = canvas.snapshot(new SnapshotParameters(), this.canvasImage);
+
+        double canvasStartRowValue = this.dragPiece.getStartRow()*this.cellSpace+this.cellSpace+this.cellSpace/2;
+        double canvasStartColValue = this.dragPiece.getStartCol()*this.cellSpace+this.cellSpace+this.cellSpace/2;
+
+        double canvasDestinationRowValue = move.getDestinationRow()*this.cellSpace+this.cellSpace+this.cellSpace/2;
+        double canvasDestinationColValue = move.getDestinationColumn()*this.cellSpace+this.cellSpace+this.cellSpace/2;
+
+        Path path = new Path();
+        transitionView = new ImageView(this.dragImage);
+        transitionView.setFitHeight(this.cellSpace);
+        transitionView.setFitWidth(this.cellSpace);
+        Line line = new Line();
+        line.setStartX(canvasStartColValue);
+        line.setStartY(canvasStartRowValue);
+        line.setEndX(canvasDestinationColValue);
+        line.setEndY(canvasDestinationRowValue);
+
+        path.getElements().addAll(new MoveTo(canvasStartColValue,canvasStartRowValue),
+                new MoveTo(canvasDestinationColValue,canvasDestinationRowValue));
+
+        PathTransition transition = new PathTransition();
+        transition.setDuration(Duration.seconds(1));
+        transition.setAutoReverse(true);
+        transition.setNode(transitionView);
+        transition.setPath(line);
+        transition.setCycleCount(1);
+        this.getChildren().add(transitionView);
+        transition.play();
+        this.gameManager.getCurrentGame().executeMove(move);
     }
 
     private void addCanvasHandler(Canvas canvas) {
@@ -67,8 +129,9 @@ class GamePane extends Region implements PropertyChangeListener {
                 dragPiece = null;
             } else if (this.dragPiece != null) {
                 redrawBoard();
-                WritableImage canvasImage = this.canvas.snapshot(new SnapshotParameters(), new WritableImage(this.cellSpace * 10, this.cellSpace * 10));
-                this.boardImage = canvas.snapshot(new SnapshotParameters(), canvasImage);
+                this.writableImage = new WritableImage(this.cellSpace * 10, this.cellSpace * 10);
+                this.canvasImage = this.canvas.snapshot(new SnapshotParameters(), this.writableImage);
+                this.boardImage = canvas.snapshot(new SnapshotParameters(), this.canvasImage);
                 this.fillAllPossibleFields(dragPiece);
             }
             event.consume();
@@ -111,9 +174,9 @@ class GamePane extends Region implements PropertyChangeListener {
 
     }
 
-    private void drawBoard(PieceBase piece) {
+    private void drawBoard(PieceBase doNotDrawPiece) {
         this.createGameFieldPane();
-        this.drawPieces(piece);
+        this.drawPieces(doNotDrawPiece);
         this.drawSideText();
     }
 
@@ -146,7 +209,6 @@ class GamePane extends Region implements PropertyChangeListener {
         this.gc.fillText("H", cellSpace * 8 + halfCellSpace, cellSpace * 9 + halfCellSpace);
     }
 
-
     private void createGameFieldPane() {
 
         for (int i = 0; i < 8; i++) {
@@ -164,7 +226,7 @@ class GamePane extends Region implements PropertyChangeListener {
     private void drawPieces(PieceBase doNotDrawPiece) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                PieceBase piece = this.gameManager.getCurrentGame().getReferee().getBoard().getField(i, j);
+                PieceBase piece = this.referee.getBoard().getField(i, j);
                 if (piece != null) {
                     if (piece instanceof Queen) {
                         this.drawImage(i, j, piece, doNotDrawPiece, this.blackQueen, this.whiteQueen);
@@ -253,10 +315,10 @@ class GamePane extends Region implements PropertyChangeListener {
     }
 
     private void getDragPiece(MouseEvent event) {
-        int col = (int) event.getX() / this.cellSpace - 1;
-        int row = (int) event.getY() / this.cellSpace - 1;
-        if (col >= 0 && col < 8 && row >= 0 && row < 8 && this.dragPiece == null) {
-            this.dragPiece = this.gameManager.getCurrentGame().getReferee().getBoard().getField(row, col);
+        this.eventCol = (int) event.getX() / this.cellSpace - 1;
+        this.eventRow = (int) event.getY() / this.cellSpace - 1;
+        if (eventCol >= 0 && eventCol < 8 && eventRow >= 0 && eventRow < 8 && this.dragPiece == null) {
+            this.dragPiece = this.referee.getBoard().getField(eventRow, eventCol);
         }
     }
 
@@ -273,7 +335,6 @@ class GamePane extends Region implements PropertyChangeListener {
         this.gc.clearRect(0, 0, 10 * this.cellSpace, 10 * this.cellSpace);
     }
 
-
     private void drawDraggedPiece(MouseEvent event) {
         if (dragPiece.getTeamNumber() == 1) {
             this.gc.drawImage(this.dragImage, event.getX() - 30, event.getY() - 30, this.cellSpace, this.cellSpace);
@@ -285,13 +346,13 @@ class GamePane extends Region implements PropertyChangeListener {
     private void executeDragAndDropOnBoard(MouseEvent event) {
         this.isPawnTraded = false;
         this.pieceForPawn = null;
-        int col = (int) event.getX() / this.cellSpace - 1;
-        int row = (int) event.getY() / this.cellSpace - 1;
-        Move move2 = new Move(this.dragPiece.getStartRow(), this.dragPiece.getStartCol(), row, col, this.isPawnTraded, this.pieceForPawn, this.dragPiece.getTeamNumber());
-        if (this.dragPiece instanceof Pawn && (row == 0 || row == 7) && this.dragPiece.getPossibleMoves().contains(move2)) {
+        this.eventCol = (int) event.getX() / this.cellSpace - 1;
+        this.eventRow = (int) event.getY() / this.cellSpace - 1;
+        Move move2 = new Move(this.dragPiece.getStartRow(), this.dragPiece.getStartCol(), eventRow, eventCol, this.isPawnTraded, this.pieceForPawn, this.dragPiece.getTeamNumber());
+        if (this.dragPiece instanceof Pawn && (eventRow == 0 || eventRow == 7) && this.dragPiece.getPossibleMoves().contains(move2)) {
             this.tradePawnPopUpWindow.showAndWait();
         }
-        Move move = new Move(this.dragPiece.getStartRow(), this.dragPiece.getStartCol(), row, col, this.isPawnTraded, this.pieceForPawn, this.dragPiece.getTeamNumber());
+        Move move = new Move(this.dragPiece.getStartRow(), this.dragPiece.getStartCol(), eventRow, eventCol, this.isPawnTraded, this.pieceForPawn, this.dragPiece.getTeamNumber());
         if (this.dragPiece.getPossibleMoves().contains(move)) {
             this.gameManager.getCurrentGame().executeMove(move);
             this.drawBoard(null);
@@ -305,7 +366,6 @@ class GamePane extends Region implements PropertyChangeListener {
         }
     }
 
-
     private void fillAllPossibleFields(PieceBase dragPiece) {
         for (Move move : dragPiece.getListOfMoves(this.gameManager.getCurrentGame().getReferee().getBoard())) {
             this.gc.setFill(new Color(0.2, 0.6, 0.2, 0.5));
@@ -317,20 +377,13 @@ class GamePane extends Region implements PropertyChangeListener {
     }
 
     private void fillNotPossibleField(PieceBase dragPiece, MouseEvent event) {
-        int col = (int) event.getX() / this.cellSpace - 1;
-        int row = (int) event.getY() / this.cellSpace - 1;
+        this.eventCol = (int) event.getX() / this.cellSpace - 1;
+        this.eventRow = (int) event.getY() / this.cellSpace - 1;
 
-        if (!this.dragPiece.getPossibleMoves().contains(new Move(dragPiece.getStartRow(), dragPiece.getStartCol(), row, col, false, null, 0)) && !(row == this.dragPiece.getStartRow() && col == this.dragPiece.getStartCol()) && row < 8 && row >= 0 && col < 8 && col >= 0) {
+        if (!this.dragPiece.getPossibleMoves().contains(new Move(dragPiece.getStartRow(), dragPiece.getStartCol(), this.eventRow, this.eventCol, false, null, 0))
+                && !(this.eventRow == this.dragPiece.getStartRow() && this.eventCol == this.dragPiece.getStartCol()) && this.eventRow < 8 && this.eventRow >= 0 && this.eventCol < 8 && this.eventCol >= 0) {
             this.gc.setFill(new Color(1, 0, 0, 0.5));
-            this.gc.fillRect(this.cellSpace * col + this.cellSpace, this.cellSpace * row + this.cellSpace, this.cellSpace, this.cellSpace);
-        }
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if ("refBoard".equals(evt.getPropertyName())){
-            System.out.println("property changed");
-            //this.redrawBoard();
+            this.gc.fillRect(this.cellSpace * this.eventCol + this.cellSpace, this.cellSpace * this.eventRow + this.cellSpace, this.cellSpace, this.cellSpace);
         }
     }
 }

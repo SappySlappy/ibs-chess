@@ -10,38 +10,6 @@ class Player extends PlayerBase{
         return null;
     }
 
-    @Override
-     Move buildMove(int startRow, int startColumn, int destinationRow, int destinationColumn) {
-        PieceBase pawn;
-        String tradePiece;
-        Move move;
-
-        if (startRow < 8 && startRow >= 0 && startColumn < 8 && startColumn >= 0) {
-            pawn = this.board.getField(startRow, startColumn);
-            if (pawn != null && pawn.getPieceName().endsWith("P")) {
-                if (pawn.getTeamNumber() == 1 && destinationRow == 7) {
-                    tradePiece = this.tradePawn(destinationRow, destinationColumn);
-                    move = new Move(startRow, startColumn, destinationRow, destinationColumn, true, tradePiece, this.teamNumber);
-                    this.executeMove(move);
-                } else if (pawn.getTeamNumber() == 2 && destinationRow == 0) {
-                    tradePiece = this.tradePawn(destinationRow, destinationColumn);
-                    move = new Move(startRow, startColumn, destinationRow, destinationColumn, true, tradePiece, this.teamNumber);
-                    this.executeMove(move);
-                } else {
-                    move = new Move(startRow, startColumn, destinationRow, destinationColumn, false, null, this.teamNumber);
-                    this.executeMove(move);
-                }
-            } else {
-                move = new Move(startRow, startColumn, destinationRow, destinationColumn, false, null, this.teamNumber);
-                this.executeMove(move);
-            }
-        } else {
-            move = new Move(startRow, startColumn, destinationRow, destinationColumn, false, null, this.teamNumber);
-        }
-
-        return move;
-    }
-
     private String tradePawn(int row, int col) {
         System.out.println("The pawn on row " + row + ", column " + col + " can be traded.");
         System.out.print("What piece do you want (Q,T,S,L): ");

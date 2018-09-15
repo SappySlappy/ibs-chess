@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
-public class DummyPlayer extends PlayerBase{
+class DummyPlayer extends PlayerBase{
 
     private ArrayList<Move> allPossibleMoves;
 
-    public DummyPlayer(Board board,String name, int teamNumber){
+    DummyPlayer(Board board, String name, int teamNumber){
         super(board,name,teamNumber);
     }
 
@@ -20,15 +20,15 @@ public class DummyPlayer extends PlayerBase{
             }
         }
         if (allPossibleMoves.size() != 0) {
-            return allPossibleMoves.get((int) (Math.random() * this.allPossibleMoves.size()));
+            Move move = allPossibleMoves.get((int) (Math.random() * this.allPossibleMoves.size()));
+            PieceBase piece = this.board.getField(move.getDestinationRow(),move.getDestinationColumn());
+            if (piece instanceof Pawn && (move.getDestinationRow() == 0 || move.getDestinationRow() == 7)){
+                return new Move(move.getStartRow(),move.getStartColumn(),move.getDestinationRow(),move.getDestinationColumn(),true,"Q",this.teamNumber);
+            }
+            return move;
         }
         else {
             return null;
         }
-    }
-
-    @Override
-    Move buildMove(int startRow, int startColumn, int destinationRow, int destinationColumn) {
-        return null;
     }
 }

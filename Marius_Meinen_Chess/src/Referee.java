@@ -1,31 +1,11 @@
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 class Referee  {
 
     private Board board;
-    private PropertyChangeSupport propertyChangeSupport;
+
 
     Referee(Board board) {
         this.board = board;
-        propertyChangeSupport = new PropertyChangeSupport(this);
-    }
 
-    void addPropertyChangeListener(PropertyChangeListener listener){
-        this.propertyChangeSupport.addPropertyChangeListener(listener);
-    }
-
-    boolean checkIfPiecesLeft(PlayerBase currentPlayer) {
-        PieceBase piece;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                piece = this.board.getField(i, j);
-                if (piece != null && piece.getTeamNumber() == currentPlayer.getTeamNumber()) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     void executeMove(Move move) {
@@ -53,10 +33,9 @@ class Referee  {
                     break;
             }
         }
-        this.propertyChangeSupport.firePropertyChange("refBoard",1,1);
     }
 
-    public Board getBoard() {
+    public synchronized Board getBoard() {
         return this.board;
     }
 

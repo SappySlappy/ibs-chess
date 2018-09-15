@@ -40,7 +40,6 @@ public class ChessMainGui extends Application {
         primaryStage.setTitle("Chess");
         primaryStage.setScene(scene);
         primaryStage.show();
-        //this.gameManager.getCurrentGame().run();
     }
 
     void closeWindow(){
@@ -93,6 +92,8 @@ public class ChessMainGui extends Application {
         Button StartButton = new Button();
         Button StopButton = new Button();
 
+        StopButton.setDisable(true);
+
         OpenButton.setGraphic(new ImageView(new Image(getClass().getResource("Images/Open-file-icon.png").toExternalForm(), 30, 30, true, false)));
         SaveButton.setGraphic(new ImageView(new Image(getClass().getResource("Images/blue-save-disk-icon.png").toString(), 30, 30, true, false)));
         StartButton.setGraphic(new ImageView(new Image(getClass().getResource("Images/start_icon.png").toString(), 30, 30, true, false)));
@@ -102,6 +103,18 @@ public class ChessMainGui extends Application {
         SaveButton.setTooltip(new Tooltip("Saves the current game."));
         StartButton.setTooltip(new Tooltip("Starts a new game."));
         StopButton.setTooltip(new Tooltip("Stops the current game."));
+
+        StartButton.addEventHandler(ActionEvent.ACTION, event -> {
+            StartButton.setDisable(true);
+            StopButton.setDisable(false);
+            this.gameManager.getCurrentGame().start();
+        });
+
+        StopButton.addEventHandler(ActionEvent.ACTION, event -> {
+            StopButton.setDisable(true);
+            StartButton.setDisable(false);
+            this.gameManager.getCurrentGame().interrupt();
+        });
 
         this.toolBar.getItems().addAll(OpenButton, SaveButton, StartButton, StopButton);
     }

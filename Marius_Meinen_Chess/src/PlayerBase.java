@@ -1,13 +1,11 @@
-import java.util.Scanner;
-
 public abstract class PlayerBase {
 
 
+    private String name;
     protected Board board;
-    protected String name;
     protected int teamNumber;
 
-    public PlayerBase(Board board,String name, int teamNumber){
+    PlayerBase(Board board, String name, int teamNumber){
         this.name = name;
         this.board = board;
         this.teamNumber = teamNumber;
@@ -49,6 +47,4 @@ public abstract class PlayerBase {
     }
 
     abstract Move makeAMove();
-
-    abstract Move buildMove(int startRow, int startColumn, int destinationRow, int destinationColumn);
 }
