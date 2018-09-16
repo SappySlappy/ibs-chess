@@ -10,6 +10,7 @@ class Game extends Thread{
     private boolean isGameFinished;
     private boolean isPaused;
     private PropertyChangeSupport propertyChangeSupport;
+    private int moveCounter;
 
     Game(PlayerBase playerA, PlayerBase playerB, Referee referee) {
         this.playerA = playerA;
@@ -26,6 +27,7 @@ class Game extends Thread{
     }
 
     public void run(){
+        moveCounter = 0;
         this.isPaused = false;
         while(!this.isGameFinished){
             synchronized (this) {
@@ -44,6 +46,7 @@ class Game extends Thread{
                     e.printStackTrace();
                 }
             }
+            System.out.println(moveCounter++);
         }
     }
 
