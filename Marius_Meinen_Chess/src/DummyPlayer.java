@@ -21,8 +21,8 @@ class DummyPlayer extends PlayerBase{
         }
         if (allPossibleMoves.size() != 0) {
             Move move = allPossibleMoves.get((int) (Math.random() * this.allPossibleMoves.size()));
-            PieceBase piece = this.board.getField(move.getDestinationRow(),move.getDestinationColumn());
-            if (piece instanceof Pawn && (move.getDestinationRow() == 0 || move.getDestinationRow() == 7)){
+            PieceBase piece = this.board.getField(move.getStartRow(),move.getStartColumn());
+            if ((piece instanceof Pawn) && (move.getDestinationRow() == 0 || move.getDestinationRow() == 7)){
                 return new Move(move.getStartRow(),move.getStartColumn(),move.getDestinationRow(),move.getDestinationColumn(),true,"Q",this.teamNumber);
             }
             return move;
