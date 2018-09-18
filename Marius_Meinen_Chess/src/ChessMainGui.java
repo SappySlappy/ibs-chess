@@ -39,6 +39,7 @@ public class ChessMainGui extends Application {
         this.primaryStage = primaryStage;
         this.gameManager = new GameManager();
         this.gameManager.setMainGui(this);
+        this.getAllProgramms();
         this.CreateMenuBar();
         this.CreateToolBar();
         this.CreateLayout();
@@ -47,6 +48,16 @@ public class ChessMainGui extends Application {
         primaryStage.setTitle("Chess");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void getAllProgramms() {
+        try{
+            JARClassLoader classLoader = new JARClassLoader("C:\\Users\\Marius\\Desktop\\ibs-chess\\Marius_Meinen_Chess\\programme");
+        }
+        catch (Exception exc){
+
+        }
+
     }
 
     void closeWindow(){
@@ -131,9 +142,10 @@ public class ChessMainGui extends Application {
             this.gameThread.setDaemon(true);
             gameThread.start();
         }
-        synchronized (gameThread){
-            this.gameManager.getCurrentGame().resumeThread();
-        }
+            synchronized (gameThread) {
+                this.gameManager.getCurrentGame().resumeThread();
+            }
+
     }
 
     private void stopDummyPlayer(){
@@ -142,6 +154,7 @@ public class ChessMainGui extends Application {
         StartButton.setDisable(false);
         startMenuItem.setDisable(false);
         synchronized (gameThread){
+            this.gameThread.interrupt();
             this.gameManager.getCurrentGame().pauseThread();
         }
     }
