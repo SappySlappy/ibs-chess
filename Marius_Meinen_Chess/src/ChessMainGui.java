@@ -218,7 +218,6 @@ public class ChessMainGui extends Application {
                 if (className == null) return null;
 
                 JARClassLoader loader = new JARClassLoader(jarFile.getAbsolutePath());
-                //Constructor<?> bla = Class.forName(className, true, loader).getConstructor();
                 Class c = Class.forName(className, false, loader);
 
                 Object o = c.newInstance();
