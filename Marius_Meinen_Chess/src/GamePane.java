@@ -272,7 +272,7 @@ class GamePane extends Region implements PropertyChangeListener {
 
     private void createTradePawnWindow() {
         this.tradePawnPopUpWindow = new Stage();
-        this.tradePawnPopUpWindow.setTitle(this.gameManager.getCurrentPlayer().getName() + " can trade a pawn.");
+        this.tradePawnPopUpWindow.setTitle("Trade your Pawn");
         VBox vBox = new VBox();
         ToggleGroup group = new ToggleGroup();
         RadioButton queen = new RadioButton("Queen");

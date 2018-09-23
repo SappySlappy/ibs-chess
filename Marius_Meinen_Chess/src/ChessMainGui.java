@@ -15,17 +15,35 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.JarURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.jar.Attributes;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+
 public class ChessMainGui extends Application {
 
+    private final File programmDirectory = new File("C:\\Users\\Marius\\IdeaProjects\\ibs-chess\\Marius_Meinen_Chess\\programm");
     private MenuBar menuBar;
     private ToolBar toolBar;
     private BorderPane root;
     private GameManager gameManager;
     private Stage primaryStage;
     private Thread gameThread;
+    private ArrayList<String> listOfProgramNames;
+    private boolean gameStarted;
 
     private Button StartButton;
     private Button StopButton;
+
+    private Menu playerAMenu;
+    private Menu playerBMenu;
 
     private MenuItem startMenuItem;
     private MenuItem stopMenuItem;
@@ -37,27 +55,17 @@ public class ChessMainGui extends Application {
     @Override
     public void start(Stage primaryStage) {      //trows Exception
         this.primaryStage = primaryStage;
-        this.gameManager = new GameManager();
-        this.gameManager.setMainGui(this);
-        this.getAllProgramms();
         this.CreateMenuBar();
         this.CreateToolBar();
+        this.gameManager = new GameManager();
+        this.gameManager.setMainGui(this);
         this.CreateLayout();
+        this.gameStarted = false;
 
         Scene scene = new Scene(this.root, 700, 700);
         primaryStage.setTitle("Chess");
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    private void getAllProgramms() {
-        try{
-            JARClassLoader classLoader = new JARClassLoader("C:\\Users\\Marius\\Desktop\\ibs-chess\\Marius_Meinen_Chess\\programme");
-        }
-        catch (Exception exc){
-
-        }
-
     }
 
     void closeWindow(){
@@ -69,17 +77,20 @@ public class ChessMainGui extends Application {
         this.menuBar = new MenuBar();
 
         Menu gameMenu = new Menu("_Game");
-        Menu playerAMenu = new Menu("Player _A");
-        Menu playerBMenu = new Menu("Player _B");
+        playerAMenu = new Menu("Player _A");
+        playerBMenu = new Menu("Player _B");
 
         MenuItem newMenuItem = new MenuItem("_New");
         MenuItem printMenuItem = new MenuItem("_Print");
         this.startMenuItem = new MenuItem("_Start");
         this.stopMenuItem = new MenuItem("_Stop");
         MenuItem closeMenuItem = new MenuItem("_Close");
+        ToggleGroup playerToggleGroupA = new ToggleGroup();
+        ToggleGroup playerToggleGroupB = new ToggleGroup();
         RadioMenuItem isPlayerAHumanMenuItem = new RadioMenuItem("_Human");
+        isPlayerAHumanMenuItem.setToggleGroup(playerToggleGroupA);
         RadioMenuItem isPlayerBHumanMenuItem = new RadioMenuItem("_Human");
-
+        isPlayerBHumanMenuItem.setToggleGroup(playerToggleGroupB);
         newMenuItem.setAccelerator(KeyCombination.keyCombination("SHORTCUT+N"));
         printMenuItem.setAccelerator(KeyCombination.keyCombination("SHORTCUT+P"));
         startMenuItem.setAccelerator(KeyCombination.keyCombination("SHORTCUT+S"));
@@ -94,6 +105,16 @@ public class ChessMainGui extends Application {
 
         playerAMenu.getItems().add(isPlayerAHumanMenuItem);
         playerBMenu.getItems().add(isPlayerBHumanMenuItem);
+
+        this.loadPlayerProgramNames();
+        for (String name:this.listOfProgramNames){
+            RadioMenuItem playerKiA = new RadioMenuItem(name);
+            playerKiA.setToggleGroup(playerToggleGroupA);
+            RadioMenuItem playerKiB = new RadioMenuItem(name);
+            playerKiB.setToggleGroup(playerToggleGroupB);
+            playerAMenu.getItems().add(playerKiA);
+            playerBMenu.getItems().add(playerKiB);
+        }
         gameMenu.getItems().addAll(newMenuItem, printMenuItem, new SeparatorMenuItem(), startMenuItem, stopMenuItem, new SeparatorMenuItem(), closeMenuItem);
 
         stopMenuItem.setDisable(true);
@@ -105,6 +126,28 @@ public class ChessMainGui extends Application {
 
         this.menuBar.getMenus().addAll(gameMenu, playerAMenu, playerBMenu);
     }
+
+    private void loadPlayerProgramNames() {
+            listOfProgramNames = new ArrayList<>();
+            File[] listOfFiles = this.programmDirectory.listFiles(file -> file.getName().endsWith(".jar"));
+            for (File file:listOfFiles){
+                listOfProgramNames.add(getProgramClassname(file.getAbsolutePath()));
+            }
+    }
+
+    static String getProgramClassname(String jarPathAndFilename) {
+        try {
+            URL fileURL = new URL("file:" + jarPathAndFilename);
+            URL u = new URL("jar", "", fileURL + "!/");
+            JarURLConnection uc = (JarURLConnection) u.openConnection();
+            Attributes attr = uc.getMainAttributes();
+            return attr != null ? attr.getValue("Player")
+                    : null;
+        } catch (IOException exc) {
+            return null;
+        }
+    }
+
 
     private void CreateToolBar() {
         this.toolBar = new ToolBar();
@@ -137,6 +180,10 @@ public class ChessMainGui extends Application {
         startMenuItem.setDisable(true);
         StopButton.setDisable(false);
         stopMenuItem.setDisable(false);
+        if (!gameStarted){
+            this.gameManager.setPlayer(getSelectedPlayer(this.playerAMenu), this.getSelectedPlayer(this.playerBMenu));
+            this.gameStarted = true;
+        }
         if (gameThread == null){
             this.gameThread = this.gameManager.getCurrentGame();
             this.gameThread.setDaemon(true);
@@ -146,6 +193,28 @@ public class ChessMainGui extends Application {
                 this.gameManager.getCurrentGame().resumeThread();
             }
 
+    }
+
+    private PlayerBase getSelectedPlayer(Menu menu) {
+         String selectedProgram = "";
+        for (MenuItem item:menu.getItems()){
+            if (item instanceof RadioMenuItem && ((RadioMenuItem) item).isSelected()){
+                RadioMenuItem selected = (RadioMenuItem) item;
+                selectedProgram = selected.getText();
+            }
+        }
+
+        if (!selectedProgram.isEmpty()){
+            try {
+                JARClassLoader cl = new JARClassLoader(this.programmDirectory+"/"+selectedProgram);
+                Class<?> programClass = cl.loadClass(selectedProgram);
+                return (PlayerBase) programClass.newInstance();
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 
     private void stopDummyPlayer(){

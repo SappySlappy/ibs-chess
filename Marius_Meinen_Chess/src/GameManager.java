@@ -6,9 +6,7 @@ class GameManager {
         private ChessMainGui mainGui;
 
     GameManager(){
-        this.game = new Game(new DummyPlayer(new Board(), "Player A", 2),
-                new DummyPlayer(new Board(), "Player B", 1),
-                new Referee(new Board()));
+        this.game = new Game(new Referee(new Board()));
     }
 
     Game getCurrentGame(){
@@ -33,5 +31,10 @@ class GameManager {
 
     void closeWindow(){
         this.mainGui.closeWindow();
+    }
+
+    public void setPlayer(PlayerBase playerA, PlayerBase playerB) {
+        this.game.setPlayerA(playerA);
+        this.game.setPlayerB(playerB);
     }
 }

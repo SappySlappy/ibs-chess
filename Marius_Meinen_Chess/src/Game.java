@@ -11,9 +11,7 @@ class Game extends Thread{
     private boolean isPaused;
     private PropertyChangeSupport propertyChangeSupport;
 
-    Game(PlayerBase playerA, PlayerBase playerB, Referee referee) {
-        this.playerA = playerA;
-        this.playerB = playerB;
+    Game(Referee referee) {
         this.referee = referee;
         this.isGameFinished = false;
         this.currentPlayer = this.playerA;
@@ -21,11 +19,19 @@ class Game extends Thread{
         propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
+    void setPlayerA(PlayerBase value){
+        this.playerA = value;
+    }
+
+    void setPlayerB(PlayerBase value){
+        this.playerB = value;
+    }
+
     void addPropertyChangeListener(PropertyChangeListener listener){
         this.propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
-    public void run(){
+    synchronized public void run(){
         this.isPaused = false;
         while(!this.isGameFinished){
             synchronized (this) {
