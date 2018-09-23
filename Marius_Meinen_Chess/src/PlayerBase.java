@@ -5,18 +5,26 @@ public abstract class PlayerBase {
     protected Board board;
     protected int teamNumber;
 
-    PlayerBase(Board board, String name, int teamNumber){
-        this.name = name;
-        this.board = board;
-        this.teamNumber = teamNumber;
+    PlayerBase(){
+        this.name = "";
+        this.board = new Board();
+        this.teamNumber = 1;
     }
 
     int getTeamNumber() {
         return this.teamNumber;
     }
 
+    void setTeamNumber(int value){
+        this.teamNumber = value;
+    }
+
     String getName() {
         return this.name;
+    }
+
+    void setName(String value) {
+        this.name = value;
     }
 
     void executeMove(Move move) {

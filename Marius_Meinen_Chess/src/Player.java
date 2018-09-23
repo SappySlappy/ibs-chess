@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 class Player extends PlayerBase{
 
-    Player(Board board, String name, int teamNumber) {
-        super(board,name,teamNumber);
+    Player() {
+        super();
     }
 
     Move makeAMove() {

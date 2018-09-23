@@ -17,15 +17,14 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.net.JarURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.Objects;
 import java.util.jar.Attributes;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ChessMainGui extends Application {
 
@@ -37,6 +36,7 @@ public class ChessMainGui extends Application {
     private Stage primaryStage;
     private Thread gameThread;
     private ArrayList<String> listOfProgramNames;
+    private File[] listOfFiles;
     private boolean gameStarted;
 
     private Button StartButton;
@@ -68,7 +68,7 @@ public class ChessMainGui extends Application {
         primaryStage.show();
     }
 
-    void closeWindow(){
+    void closeWindow() {
         this.primaryStage.close();
     }
 
@@ -107,7 +107,7 @@ public class ChessMainGui extends Application {
         playerBMenu.getItems().add(isPlayerBHumanMenuItem);
 
         this.loadPlayerProgramNames();
-        for (String name:this.listOfProgramNames){
+        for (String name : this.listOfProgramNames) {
             RadioMenuItem playerKiA = new RadioMenuItem(name);
             playerKiA.setToggleGroup(playerToggleGroupA);
             RadioMenuItem playerKiB = new RadioMenuItem(name);
@@ -128,11 +128,11 @@ public class ChessMainGui extends Application {
     }
 
     private void loadPlayerProgramNames() {
-            listOfProgramNames = new ArrayList<>();
-            File[] listOfFiles = this.programmDirectory.listFiles(file -> file.getName().endsWith(".jar"));
-            for (File file:listOfFiles){
-                listOfProgramNames.add(getProgramClassname(file.getAbsolutePath()));
-            }
+        listOfProgramNames = new ArrayList<>();
+        this.listOfFiles = this.programmDirectory.listFiles(file -> file.getName().endsWith(".jar"));
+        for (File file : listOfFiles) {
+            listOfProgramNames.add(getProgramClassname(file.getAbsolutePath()));
+        }
     }
 
     static String getProgramClassname(String jarPathAndFilename) {
@@ -175,54 +175,68 @@ public class ChessMainGui extends Application {
         this.toolBar.getItems().addAll(OpenButton, SaveButton, StartButton, StopButton);
     }
 
-    private void startDummyPlayer(){
+    private void startDummyPlayer() {
         StartButton.setDisable(true);
         startMenuItem.setDisable(true);
         StopButton.setDisable(false);
         stopMenuItem.setDisable(false);
-        if (!gameStarted){
+        if (!gameStarted) {
             this.gameManager.setPlayer(getSelectedPlayer(this.playerAMenu), this.getSelectedPlayer(this.playerBMenu));
             this.gameStarted = true;
         }
-        if (gameThread == null){
+        if (gameThread == null) {
             this.gameThread = this.gameManager.getCurrentGame();
             this.gameThread.setDaemon(true);
             gameThread.start();
         }
-            synchronized (gameThread) {
-                this.gameManager.getCurrentGame().resumeThread();
-            }
+        synchronized (gameThread) {
+            this.gameManager.getCurrentGame().resumeThread();
+        }
 
     }
 
     private PlayerBase getSelectedPlayer(Menu menu) {
-         String selectedProgram = "";
-        for (MenuItem item:menu.getItems()){
-            if (item instanceof RadioMenuItem && ((RadioMenuItem) item).isSelected()){
+        String selectedProgram = "";
+        for (MenuItem item : menu.getItems()) {
+            if (item instanceof RadioMenuItem && ((RadioMenuItem) item).isSelected()) {
                 RadioMenuItem selected = (RadioMenuItem) item;
                 selectedProgram = selected.getText();
             }
         }
 
-        if (!selectedProgram.isEmpty()){
+        if (!selectedProgram.isEmpty()) {
             try {
-                JARClassLoader cl = new JARClassLoader(this.programmDirectory+"/"+selectedProgram);
-                Class<?> programClass = cl.loadClass(selectedProgram);
-                return (PlayerBase) programClass.newInstance();
-            } catch (Throwable e) {
+                File jarFile = null;
+                for (File file : listOfFiles) {
+                    if (file.getAbsolutePath().equals(this.programmDirectory+"\\"+selectedProgram+".jar")) {
+                        jarFile = file;
+                    }
+                }
+
+
+                String className = getProgramClassname(jarFile.getAbsolutePath());
+                if (className == null) return null;
+
+                JARClassLoader loader = new JARClassLoader(jarFile.getAbsolutePath());
+                //Constructor<?> bla = Class.forName(className, true, loader).getConstructor();
+                Class c = Class.forName(className, false, loader);
+
+                Object o = c.newInstance();
+                return (PlayerBase) o;
+            } catch (Exception e) {
                 e.printStackTrace();
+                return null;
             }
         }
-
         return null;
     }
 
-    private void stopDummyPlayer(){
+    private void stopDummyPlayer() {
         StopButton.setDisable(true);
         stopMenuItem.setDisable(true);
         StartButton.setDisable(false);
         startMenuItem.setDisable(false);
-        synchronized (gameThread){
+        synchronized (gameThread) {
             this.gameThread.interrupt();
             this.gameManager.getCurrentGame().pauseThread();
         }
