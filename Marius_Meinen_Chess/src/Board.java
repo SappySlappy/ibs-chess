@@ -7,7 +7,7 @@ public class Board {
         this.initializeWhitePieces();
     }
 
-    void executeMove(Move move) {
+    public void executeMove(Move move) {
         if (!(move.getDestinationRow() < 0 || move.getStartRow() < 0 || move.getDestinationColumn() < 0 || move.getStartColumn() < 0
                 || move.getDestinationRow() > 7 || move.getStartRow() > 7 || move.getDestinationColumn() > 7 || move.getStartColumn() > 7)) {
             //set piece on new position
@@ -46,11 +46,11 @@ public class Board {
         }
     }
 
-    PieceBase getField(int row, int column) {
+    public PieceBase getField(int row, int column) {
         return board[row][column];
     }
 
-    void setField(PieceBase piece, int row, int col) {
+    public void setField(PieceBase piece, int row, int col) {
         this.board[row][col] = piece;
     }
 

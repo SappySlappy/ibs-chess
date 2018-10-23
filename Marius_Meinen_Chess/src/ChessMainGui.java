@@ -17,10 +17,10 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.jar.Attributes;
 import java.util.stream.Collectors;
@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 
 public class ChessMainGui extends Application {
 
-    private final File programmDirectory = new File("C:\\Users\\Marius\\IdeaProjects\\ibs-chess\\Marius_Meinen_Chess\\programm");
+    private final File programDirectory = new File("programme/");
     private MenuBar menuBar;
     private ToolBar toolBar;
     private BorderPane root;
@@ -53,7 +53,8 @@ public class ChessMainGui extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {      //trows Exception
+    public void start(Stage primaryStage) {
+        //trows Exception
         this.primaryStage = primaryStage;
         this.CreateMenuBar();
         this.CreateToolBar();
@@ -129,7 +130,7 @@ public class ChessMainGui extends Application {
 
     private void loadPlayerProgramNames() {
         listOfProgramNames = new ArrayList<>();
-        this.listOfFiles = this.programmDirectory.listFiles(file -> file.getName().endsWith(".jar"));
+        this.listOfFiles = this.programDirectory.listFiles(file -> file.getName().endsWith(".jar"));
         for (File file : listOfFiles) {
             listOfProgramNames.add(getProgramClassname(file.getAbsolutePath()));
         }
@@ -206,19 +207,18 @@ public class ChessMainGui extends Application {
 
         if (!selectedProgram.isEmpty()) {
             try {
-                File jarFile = null;
-                for (File file : listOfFiles) {
-                    if (file.getAbsolutePath().equals(this.programmDirectory+"\\"+selectedProgram+".jar")) {
-                        jarFile = file;
-                    }
+            File jarFile = null;
+            for (File file : listOfFiles) {
+                if (file.getPath().equals(this.programDirectory + "\\" + selectedProgram + ".jar")) {
+                    jarFile = file;
                 }
-
+            }
 
                 String className = getProgramClassname(jarFile.getAbsolutePath());
                 if (className == null) return null;
 
                 JARClassLoader loader = new JARClassLoader(jarFile.getAbsolutePath());
-                Class c = Class.forName(className, false, loader);
+                Class c = Class.forName(className, true, loader);
 
                 Object o = c.newInstance();
                 return (PlayerBase) o;

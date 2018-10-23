@@ -30,31 +30,31 @@ public class Move {
                 && newMove.getDestinationColumn() == this.getDestinationColumn();
     }
 
-    int getStartRow() {
+    public int getStartRow() {
         return this.startRow;
     }
 
-    int getStartColumn() {
+    public int getStartColumn() {
         return this.startColumn;
     }
 
-    int getDestinationRow() {
+    public int getDestinationRow() {
         return this.destinationRow;
     }
 
-    int getDestinationColumn() {
+    public int getDestinationColumn() {
         return this.destinationColumn;
     }
 
-    boolean getPawnTraded() {
+    public boolean getPawnTraded() {
         return this.pawnTraded;
     }
 
-    String getPieceForPawn() {
+    public String getPieceForPawn() {
         return this.pieceForPawn;
     }
 
-    int getTeamNumber() {
+    public int getTeamNumber() {
         return this.teamNumber;
     }
 }
